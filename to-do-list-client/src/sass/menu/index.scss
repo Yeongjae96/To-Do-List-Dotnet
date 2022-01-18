@@ -1,0 +1,29 @@
+.main_icon__img {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 30px;
+
+}
+
+
+.menu {
+  & > .menu_item__li:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  
+  & .menu_item__li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > a {
+      color: black;
+      text-decoration: none;
+    }
+    & > *:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+}
+
