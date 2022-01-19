@@ -30,14 +30,7 @@ export default {
 <style>
   aside {
     position: relative;
-    width: 20%;
+    min-width: 200px;
     background-color: white;
   }
-
-  @media (max-width: 600px) {
-    aside {
-      display: none;
-    }
-  }
-  
 </style>

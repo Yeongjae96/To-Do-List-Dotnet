@@ -1,17 +1,8 @@
 <template>
-  <y-layout>
-    <router-view></router-view>
-  </y-layout>
+  <router-view></router-view>
 </template>
-
 <script>
-
-import YLayout from '@/layout'
-
 export default {
-  components: {
-    YLayout
-  },
   name: 'App',
   data() { return {}}
 }
@@ -23,7 +14,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   height: 100vh;
 }

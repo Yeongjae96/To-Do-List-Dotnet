@@ -1,9 +1,12 @@
 <template>
-  <li class="menu_item__li">
+  <li class="menu_item__li" @click="routeLink">
     <y-icon :name="icon" :size="imageSize"/>
-    <router-link :to="url">
+    <p>
       {{title}}
-    </router-link>
+    </p>
+    <!-- <router-link :to="url">
+      {{title}}
+    </router-link> -->
   </li>
 </template>
 
@@ -29,6 +32,11 @@ export default {
   },
   data() {
     return {
+    }
+  },
+  methods: {
+    routeLink() {
+      this.$router.push(this.url);
     }
   }
 }

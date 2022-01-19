@@ -2,21 +2,24 @@
   <!-- <y-header /> -->
   <section>
     <y-left-aside />
-    <article>
-      <slot></slot>
-    </article>
+    <y-content>
+      <router-view />
+    </y-content>
   </section>
 </template>
 <script>
-// import YHeader from './modules/YHeader'
 import YLeftAside from './modules/YLeftAside'
+import YContent from './modules/YContent'
 export default {
   name: 'y-layout',
   components: {
     // YHeader,
-    YLeftAside
+    YLeftAside,
+    YContent,
   },  
-  data() { return {}}
+  data() { return {}},
+  mounted() {
+  }
 }
 </script>
 <style scoped>

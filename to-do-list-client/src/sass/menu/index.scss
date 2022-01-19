@@ -1,29 +1,44 @@
-.main_icon__img {
-  width: 90px;
-  height: 90px;
-  margin-bottom: 30px;
+@import "../_mixin.scss";
 
+.main_icon__img {
+  width: 120px;
+  height: 120px;
 }
 
+.main_icon {
+  @include flexRow;
+  justify-content: center;
+  padding: 20px;
+}
 
 .menu {
-  & > .menu_item__li:not(:last-child) {
-    margin-bottom: 20px;
-  }
-  
+  padding-left: 10px;
+  padding-right: 10px;
+
   & .menu_item__li {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 40px;
+    cursor: pointer;
 
-    & > a {
-      color: black;
-      text-decoration: none;
+    &:not(:last-child) {
+      margin-bottom: 5px;
     }
+
+    &:hover {
+      background-color: silver;      
+    }
+
     & > *:not(:last-child) {
       margin-right: 10px;
     }
   }
-
+  
 }
 
+@include mobile {
+  aside {
+    display: none;
+  }
+}

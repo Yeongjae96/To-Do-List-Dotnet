@@ -1,14 +1,17 @@
 import { createWebHistory, createRouter } from 'vue-router';
 
-import Home from '@/pages/Home'
-import Error404 from '@/pages/error/404'
 const routes = [
+  { path: '/error/404', component: () => import('@/pages/error/404') },
   {
     path: '/',
-    redirect: '/Home'
-  },
-  { name: 'Home', path: '/home', component: Home },
-  { path: '/:pathMatch(.*)*', component: Error404 },
+    component: () => import('@/layout'),
+    children: [
+      { path: '', redirect: 'home' },
+      { name: 'Home', path: 'home', component: import('@/pages/Home') },
+      { name: 'About', path: 'about', component: () => import('@/pages/About') },
+    ],
+  },  
+  { path: '/:pathMatch(.*)*', redirect:'/error/404' },
 ];
 
 const router = createRouter({
