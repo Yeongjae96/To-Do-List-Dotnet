@@ -1,15 +1,17 @@
 @import "./variables";
 
-@mixin flexRow {
+@mixin flexRow($horizontal-align: stretch, $vertical-align: center) {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: $horizontal-align;
+  align-items: $vertical-align;
 }
 
-@mixin flexColumn {
+@mixin flexColumn($horizontal-align: stretch, $vertical-align: center) {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: $horizontal-align;
+  justify-content: $vertical-align;
 }
 
 @mixin mobile {

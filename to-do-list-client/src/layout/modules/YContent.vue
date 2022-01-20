@@ -33,6 +33,7 @@ export default {
 <style lang="scss" scoped>
   @import '@/sass/_mixin.scss';
   #content {
+    @include flexColumn;
     width: 100%;
   }
 
@@ -53,6 +54,7 @@ export default {
 
   #content-body {
     padding: 30px;
-    height: 100vh;
+    // height: 100%;  
+    flex: 1;
   }
 </style>

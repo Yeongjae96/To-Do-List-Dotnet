@@ -12,27 +12,29 @@
 }
 
 .menu {
-  padding-left: 10px;
-  padding-right: 10px;
-
   & .menu_item__li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flexRow;
     min-height: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
     cursor: pointer;
 
-    &:not(:last-child) {
-      margin-bottom: 5px;
-    }
-
-    &:hover {
-      background-color: silver;      
+    &.active {
+      background-color: #f7b1b5;
+      color: white;
     }
 
     & > *:not(:last-child) {
       margin-right: 10px;
     }
+
+
+    &:hover {
+      background-color: #f7b1b5;  
+      color: white;    
+    }
+
+    
   }
   
 }

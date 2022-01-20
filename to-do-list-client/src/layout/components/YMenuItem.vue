@@ -1,13 +1,15 @@
 <template>
-  <li class="menu_item__li" @click="routeLink">
-    <y-icon :name="icon" :size="imageSize"/>
-    <p>
-      {{title}}
-    </p>
-    <!-- <router-link :to="url">
-      {{title}}
-    </router-link> -->
-  </li>
+  <router-link :to="url" 
+    v-slot="{navigate, isActive, isExactActive}"
+  >
+    <li class="menu_item__li" @click="navigate" :class="[isActive && 'active', isExactActive && 'router-link-exact-active']">
+      <y-icon :name="icon" :size="imageSize"/>
+      <p>
+        {{title}}
+      </p>
+    </li>
+    
+  </router-link>  
 </template>
 
 <script>
@@ -28,10 +30,10 @@ export default {
     imageSize: {
       type: String,
       default: 'sm',
-    }
-  },
-  data() {
-    return {
+    },
+    isActive: {
+      type: Boolean,
+      default: false,
     }
   },
   methods: {
