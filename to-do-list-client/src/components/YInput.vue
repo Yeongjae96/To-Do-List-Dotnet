@@ -3,8 +3,10 @@
 </template>
 
 <script>
+import ComponentPropertyMixin from '@/mixin/ComponentPropertyMixin'
 export default {
   name: 'y-input',
+  mixins: [ComponentPropertyMixin],
   props: {
     type: {
       type: String,
@@ -14,37 +16,8 @@ export default {
       type: String,
       default: '',
     },
-    width: {
-      type: String,
-      default: '100%',
-    },
-    height: {
-      type: String,
-      default: '50px',
-    },
-    borderColor: {
-      type: String,
-      default: 'black',
-    }
   },
   computed: {
-    computedStyle() {
-      return {
-        ...this.size,
-        ...this.computedColor,
-      }
-    },
-    size() {
-      return {
-        width: typeof(this.width) == 'number' ? `${this.width}px` : this.width,
-        height: typeof(this.height) == 'number' ? `${this.height}px` : this.height
-      }
-    },
-    computedColor() {
-      return {
-        borderBottomColor: this.borderColor,
-      }
-    }
   },
   methods: {
   },

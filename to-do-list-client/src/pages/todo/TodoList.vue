@@ -8,8 +8,14 @@
         알림줄
       </div>
       <div class="todo__search">
-        <y-input type="text" width="80%" height="20px" borderColor="red"/>
-        <y-button>등록</y-button>
+        <y-input type="text" width="80%" height="30px" borderColor="gray"/>
+        <y-button
+          width="50px"
+          height="30px"
+          borderColor="black"
+          backgroundColor="silver"
+          text="추가"
+        >등록</y-button>
       </div>
       <div class="">
         목록창
@@ -23,10 +29,12 @@
 
 <script>
 import YInput from '@/components/YInput'
+import YButton from '@/components/YButton'
 export default {
   name: 'todo-list',
   components: {
     YInput,
+    YButton,
   },
   // alternativeUrl: 'todo/todos',
   data() {
@@ -72,10 +80,13 @@ export default {
   }
 
   .todo__search {
-    display: flex;
-    
-    // & > *:nth-child(1) { flex-grow: 1; }
-    // & > *:nth-child(2) { flex-grow: 2; }
+    @include flexRow;
+    & > *:not(:last-child) {
+      margin-right: 20px;
+    }
+    & > * {
+      flex-grow: 1;
+    }
   }
 
 
