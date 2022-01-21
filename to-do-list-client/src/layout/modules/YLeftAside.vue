@@ -36,7 +36,6 @@ export default {
     },
     async init() {
       this.menuList = await this.getMenuList();
-      console.log(this.menuList);
     },
   }
 }

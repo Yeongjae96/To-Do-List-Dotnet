@@ -1,10 +1,14 @@
 <template>
-  <font-awesome-icon :icon="['fas', name]" :size="size"/>
+  <font-awesome-icon :icon="['fas', name]" :size="size" :style="computedStyle"/>
 </template>
 
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 export default {
   name: 'y-icon',
+  components: {
+    FontAwesomeIcon,
+  },
   props: {
     name: {
       type: String,
@@ -14,6 +18,10 @@ export default {
       type: String,
       default: 'sm',
     },
+    fontSize: {
+      type: String,
+      default: '1rem'
+    },
   },
   data() {
     return {
@@ -21,6 +29,11 @@ export default {
     };
   },
   computed: {
+    computedStyle() {
+      return {
+        fontSize: this.fontSize,
+      }
+    }
   },
   mounted() {
   },

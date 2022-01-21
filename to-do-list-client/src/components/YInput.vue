@@ -1,5 +1,13 @@
 <template>
-  <input :type="type" :value="value" :style="computedStyle"/>
+  <input 
+    :type="type" 
+    :style="computedStyle" 
+    :autoComplete="autoComplete" 
+    :value="modelValue"
+    :maxLength="maxLength"
+    @input="$emit('update:modelValue', $event.target.value)"
+    @keyup.enter="$emit('enter', $event.target.value)"
+  />
 </template>
 
 <script>
@@ -12,11 +20,32 @@ export default {
       type: String,
       default: 'text',
     },
-    value: {
+    autoComplete: {
+      type: String,
+      default: '입력해주세요',
+    },
+    modelValue: {
       type: String,
       default: '',
     },
+    default: {
+      type: String,
+      default: '',
+    },
+    maxLength: {
+      type: Number,
+      default: () => 30,
+    }
   },
+  mounted() {
+    if (this.default) this.$emit('update:modelValue', this.default);
+  },
+  data() {
+    return {
+
+    }
+  },
+  
   computed: {
   },
   methods: {

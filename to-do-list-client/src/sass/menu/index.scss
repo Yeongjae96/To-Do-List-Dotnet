@@ -18,23 +18,17 @@
     padding-left: 30px;
     padding-right: 30px;
     cursor: pointer;
-
     &.active {
       background-color: #f7b1b5;
       color: white;
     }
-
     & > *:not(:last-child) {
       margin-right: 10px;
     }
-
-
     &:hover {
       background-color: #f7b1b5;  
       color: white;    
     }
-
-    
   }
   
 }

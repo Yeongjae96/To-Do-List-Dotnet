@@ -2,9 +2,8 @@
   <!-- <y-header /> -->
   <section>
     <y-left-aside />
-    <y-content>
-      <router-view />
-    </y-content>
+      <y-content>
+      </y-content>
   </section>
 </template>
 <script>
@@ -13,11 +12,16 @@ import YContent from './modules/YContent'
 export default {
   name: 'y-layout',
   components: {
-    // YHeader,
     YLeftAside,
     YContent,
-  },  
-  data() { return {}},
+  },
+  computed: {
+    key() {
+      return this.$route.path
+    }
+  },
+  data() { return {
+  }},
   mounted() {
   }
 }
