@@ -1,5 +1,5 @@
 <template>
-  <button :type="type" :style="computedStyle">
+  <button :type="type" :style="computedStyle" @click.stop="clickEvent">
     {{ text }}
   </button>
 </template>
@@ -16,7 +16,12 @@ export default {
     },
   },
   computed: {
-  }
+  },
+  methods: {
+    clickEvent(e) {
+        this.$emit('click', e)
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

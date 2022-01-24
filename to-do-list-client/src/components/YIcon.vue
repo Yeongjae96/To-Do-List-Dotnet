@@ -1,5 +1,5 @@
 <template>
-  <font-awesome-icon :icon="['fas', name]" :size="size" :style="computedStyle"/>
+  <font-awesome-icon :class="className" :icon="['fas', name]" :size="size" :style="computedStyle"/>
 </template>
 
 <script>
@@ -10,6 +10,10 @@ export default {
     FontAwesomeIcon,
   },
   props: {
+    className: {
+      type: [String, Array],
+      default: () => '',
+    },
     name: {
       type: String,
       default: '제목을 입력해주세요',

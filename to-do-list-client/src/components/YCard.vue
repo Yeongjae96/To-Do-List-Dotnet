@@ -24,10 +24,10 @@ export default {
     @include flexColumn($horizontal-align: flex-start, $vertical-align: flex-start);
     position: relative;
     width: 90%;
-    height: 90%;
+    min-height: 100%;
     margin: 0 auto;
     background-color: white;
-    padding: 20px 20px 0px 20px;
+    padding: 10px 10px 0px 10px;
     -webkit-box-shadow: 6px 4px 15px 4px rgba(0,0,0,0.5); 
     box-shadow: 6px 4px 15px 4px rgba(0,0,0,0.5);
     & > * {
@@ -45,6 +45,12 @@ export default {
 
     /* content 부분 css */
     & .card__content {
+      height: 100%;
+      // max-height: %;
+      flex-grow: 1;
+      overflow: auto;
+      height: 0px;
+
       & > :slotted(*:not(:last-child)) {
         margin-bottom: 10px;
       }
@@ -52,8 +58,12 @@ export default {
 
     /* tail 부분 css */
     & .card__tail {
-      position: absolute;
-      bottom: 10px;
+      // position: absolute;
+      // bottom: 0;
+      position: relative;
+      transform: translateY(-100%);
+      margin-top: 20px;
+      height: 20px;
     }
   }
 </style>

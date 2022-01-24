@@ -10,7 +10,7 @@
       <div class="todo__insert">
         <y-input 
           type="text" 
-          width="80%" 
+          width="100%" 
           height="30px" 
           borderColor="gray" 
           v-model="inputValue" 
@@ -18,7 +18,7 @@
           @enter="(e) => createTodo(e)"
         />
         <y-button
-          width="50px"
+          width="10%"
           height="30px"
           borderColor="black"
           backgroundColor="#EE5058"
@@ -27,43 +27,27 @@
         />
       </div>
       <ul class="todo__list">
-        <todo-item 
-          v-for="todo in todoList" 
-          :key="todo.id"
-          v-bind="todo" 
-        />
-        <!-- <li class="todo__item" v-for="todo in todoList" :key="todo.id">
-          <div class="todo__subject">
-            {{ todo.subject }}
-          </div>
-          <div class="todo__priority">
-            {{ todo.priority }}
-          </div>
-          <div class="todo__tag">
-            tagIcon
-          </div>
-          <div class="todo__">
-            {{ todo.regDate }}
-          </div>
-          <div>
-            <y-button
-              width="50px"
-              height="40px"
-              backgroundColor="lightblue"
-              text="수정" />
-            <y-button
-              width="50px"
-              height="40px"
-              backgroundColor="#EE5058"
-              text="삭제" />
-          </div>
-        </li> -->
+        <template
+          v-if="todoList.length > 0" 
+        >
+          <todo-item 
+            v-for="todo in todoList" 
+            :key="todo.id"
+            v-bind="todo"
+            @delete="deleteTodo"
+          />
+        </template>
+        <template
+          v-else
+        >
+          <y-empty-list
+            message="항목이 존재하지 않습니다."
+          />
+        </template>
       </ul>
     </template>
     <template v-slot:tail>
-      <div class="card__tail">
-        각종 아이콘 메뉴
-      </div>
+      각종 아이콘 메뉴
     </template>
   </y-card>
 </template>
@@ -73,6 +57,8 @@ import YInput from '@/components/YInput'
 import YButton from '@/components/YButton'
 import YCard from '@/components/YCard'
 import TodoItem from './TodoItem'
+import YEmptyList from '@/components/YEmptyList'
+
 export default {
   name: 'todo-list',
   components: {
@@ -80,6 +66,7 @@ export default {
     YButton,
     YCard,
     TodoItem,
+    YEmptyList,
   },
   // alternativeUrl: 'todo/todos',
   data() {
@@ -89,8 +76,10 @@ export default {
       todoList: [],
     };
   },
-  beforeMount() {
+  created() {
     this.init();
+
+    console.log(this.$Date);
   },
   methods: {
     async init() {
@@ -105,16 +94,20 @@ export default {
         { id: String(4), subject: '테스트4', detail: '4자세한 내용은 Detail에서....', priority: 0, flag: 'N', regDate: '2021-11-15'},
       ]
     },
+    
     createTodo(title){
       if (this.$_.isEmpty(title)) return;
       this.todoList.push({
-        id: String(-1),
+        id: `{t:${this.todoList.length}}`,
         subject: title, 
         priority: 0,
         flag: 'N',
-        regDate: new Date(),
+        regDate: this.$Date.getToday(),
       });
       this.inputValue = '';
+    },
+    deleteTodo(id) {
+      this.todoList = this.$_.filter(this.todoList, todo => todo.id!==id);
     },
     onEnterEvent() {
       console.log('엔터입력 되었어요!');
@@ -133,8 +126,6 @@ export default {
     & > *:not(:last-child) {
       margin-right: 20px;
     }
-    & > * {
-      flex-grow: 1;
-    }
+    
   }
 </style>

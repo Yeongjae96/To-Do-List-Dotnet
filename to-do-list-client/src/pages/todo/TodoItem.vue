@@ -12,7 +12,7 @@
     <div class="todo__reg_date">
       {{ regDate }}
     </div>
-    <div>
+    <div class="todo__buttons">
       <y-button
         width="50px"
         height="40px"
@@ -22,7 +22,9 @@
         width="50px"
         height="40px"
         backgroundColor="#EE5058"
-        text="삭제" />
+        text="삭제"
+        :effect="true"
+        @click="deleteTodo(id)" />
     </div>
   </li>
 </template>
@@ -55,6 +57,22 @@ export default {
       type: String,
       default: () => '',
     },
+  },
+  data() {
+    return {
+      updateMode: [],
+    }
+  },
+  computed: {
+    isSubjectUpdateMode() {
+      return this.$_.includes(this.updateMode, 'subject');
+    }
+  },
+  methods: {
+    deleteTodo(id) {
+      console.log(123123);
+      this.$emit('delete', id);
+    },
   }
 }
 </script>
@@ -64,6 +82,7 @@ export default {
 
   .todo__item {
     @include flexRow;
+    max-height: 30px;
   
     &:not(:last-child) {
       margin-bottom: 20px;
@@ -71,12 +90,28 @@ export default {
 
     & > * {
       @include flexRow;
-      min-height: 30px;
       margin-right: 10px;
     }
     
     & .todo__subject {
       width: 50%;
     }
+
+    & .todo__priority {
+      width: 10%;
+    }
+
+    
+    & .todo__tag {
+      width: 10%;
+    }
+    & .todo__reg_date {
+      width: 20%;
+    }
+
+    & .todo__buttons {
+      width: 10%;
+    }
+
   }
 </style>

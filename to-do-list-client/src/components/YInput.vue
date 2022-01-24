@@ -58,6 +58,6 @@ export default {
     border-top: 0 ;
     border-left: 0; 
     border-right: 0; 
-    border-bottom: 2px solid;
+    border-bottom: 1.5px solid;
   } 
 </style>

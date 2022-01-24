@@ -28,10 +28,10 @@ export default {
 </script>
 <style scoped>
   section {
-    height: 100%;
+    min-height: inherit;
     position: relative;
     display: flex;
-    flex-grow: 1; 
+    overflow-y: hidden;
     background-color: lightyellow;
   }
 

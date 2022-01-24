@@ -4,6 +4,7 @@ import router from './router'
 import store from "./store";
 import lodash from './plugins/lodash';
 import moment from './plugins/moment';
+import utils from './plugins/utils';
 
 // fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -21,6 +22,7 @@ const app = createApp(App);
 app.use(lodash);
 // moment
 app.use(moment);
+app.use(utils);
 
 app.use(router);
 app.use(store);
