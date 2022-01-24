@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     deleteTodo(id) {
-      console.log(123123);
       this.$emit('delete', id);
     },
   }
@@ -111,6 +110,10 @@ export default {
 
     & .todo__buttons {
       width: 10%;
+
+      @include notLastChild {
+        margin-right: 5px;
+      }
     }
 
   }

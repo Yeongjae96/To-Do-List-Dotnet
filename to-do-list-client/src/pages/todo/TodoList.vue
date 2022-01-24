@@ -15,7 +15,7 @@
           borderColor="gray" 
           v-model="inputValue" 
           autoComplete="입력해주세요"
-          @enter="(e) => createTodo(e)"
+          @enter="createTodo"
         />
         <y-button
           width="10%"
@@ -23,7 +23,7 @@
           borderColor="black"
           backgroundColor="#EE5058"
           text="추가"
-          @click="onClickEvent"
+          @click="(e) => createTodo(inputValue)"
         />
       </div>
       <ul class="todo__list">
@@ -78,8 +78,6 @@ export default {
   },
   created() {
     this.init();
-
-    console.log(this.$Date);
   },
   methods: {
     async init() {
@@ -96,7 +94,7 @@ export default {
     },
     
     createTodo(title){
-      if (this.$_.isEmpty(title)) return;
+        if (this.$_.isEmpty(title)) return;
       this.todoList.push({
         id: `{t:${this.todoList.length}}`,
         subject: title, 

@@ -13,13 +13,13 @@ export default {
     type: {
       type: String,
       default: 'button',
-    },
+    },  
   },
   computed: {
   },
   methods: {
     clickEvent(e) {
-        this.$emit('click', e)
+      this.$emit('click', e);
     },
   },
 }
