@@ -11,7 +11,7 @@
   </aside>
 </template>
 <script>
-import YMenuList from '@/layout/components/YMenuList'
+import YMenuList from '@/components/layout/YMenuList'
 export default {
   name: 'y-left-aside',
   components: {

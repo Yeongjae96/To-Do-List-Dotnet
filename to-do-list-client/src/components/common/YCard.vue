@@ -3,9 +3,9 @@
     <div class="card__title">
       <slot name="title">title</slot>
     </div>
-    <div class="card__content">
-      <slot name="content">content</slot>
-    </div>
+      <div class="card__content">
+        <slot name="content">content</slot>
+      </div>
     <div class="card__tail">
       <slot name="tail">tail</slot>
     </div>

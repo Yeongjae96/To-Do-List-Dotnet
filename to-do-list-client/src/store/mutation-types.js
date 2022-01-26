@@ -1,1 +1,0 @@
-export const USER = { SET_NAME: 'SET_NAME' };

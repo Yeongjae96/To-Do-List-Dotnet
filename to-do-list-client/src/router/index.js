@@ -3,7 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router';
 const dynamicRoutes = require.context(
   '@/pages',
   true,
-  /[^(index)]\.vue$/ // 탐색할 정규 표현식 (index를 제외한 js 파일들을 탐색합니다)
+  /\b(?!index).+?\b\.vue$/ // 탐색할 정규 표현식 (index를 제외한 js 파일들을 탐색합니다)
 )
 
 // const routeMap = {};

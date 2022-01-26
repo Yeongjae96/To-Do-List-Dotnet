@@ -58,6 +58,13 @@ export default {
     border-top: 0 ;
     border-left: 0; 
     border-right: 0; 
-    border-bottom: 1.5px solid;
+    border-bottom: 1px solid;
+    border-color: rgba(190,190,190, 0.8);
+    padding-left: 5px;
+  } 
+
+  input:focus {
+    border: 1px solid;
+    border-color: rgb(163, 147, 253);
   } 
 </style>

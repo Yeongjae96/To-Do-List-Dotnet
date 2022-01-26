@@ -16,10 +16,6 @@ export default {
       type: String,
       default: '기본값'
     },
-    borderColor: {
-      type: String,
-      default: 'black',
-    },
     backgroundColor: {
       type: String,
       default: 'inherit',
@@ -29,7 +25,6 @@ export default {
     computedStyle() {
       return {
         ...this.size,
-        ...this.computedColor,
         ...this.computedBackgroundColor,
       }
     },
@@ -37,11 +32,6 @@ export default {
       return {
         width: typeof(this.width) == 'number' ? `${this.width}px` : this.width,
         height: typeof(this.height) == 'number' ? `${this.height}px` : this.height
-      }
-    },
-    computedColor() {
-      return {
-        borderColor: this.borderColor,
       }
     },
     computedBackgroundColor() {

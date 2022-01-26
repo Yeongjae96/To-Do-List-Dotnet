@@ -1,17 +1,13 @@
 <template>
   <div class="empty__list">
-    <y-icon size="3x" icon="file"/>
+    <y-icon size="2x" icon="file"/>
     <p>{{message}}</p>
   </div>
 </template>
 
 <script>
-import YIcon from '@/components/YIcon'
 export default {
   name: 'y-empty-list',
-  components: {
-    YIcon,
-  },
   props: {
     message: {
       type: String,

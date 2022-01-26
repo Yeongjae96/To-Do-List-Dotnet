@@ -17,7 +17,8 @@
         width="50px"
         height="40px"
         backgroundColor="lightblue"
-        text="수정" />
+        text="수정"
+        @click="updateTodo" />
       <y-button
         width="50px"
         height="40px"
@@ -30,11 +31,9 @@
 </template>
 
 <script>
-import YButton from '@/components/YButton';
 export default {
   name: 'todo-item',
   components: {
-    YButton,
   },
   props: {
     id: {
@@ -72,6 +71,9 @@ export default {
     deleteTodo(id) {
       this.$emit('delete', id);
     },
+    updateTodo() {
+      this.$emit('update', this.id);
+    }
   }
 }
 </script>
