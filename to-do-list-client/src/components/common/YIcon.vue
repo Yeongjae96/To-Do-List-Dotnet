@@ -16,7 +16,7 @@ export default {
     },
     name: {
       type: String,
-      default: '제목을 입력해주세요',
+      default: 'times',
     },
     size: {
       type: String,
@@ -26,6 +26,14 @@ export default {
       type: String,
       default: '1rem'
     },
+    color: {
+      type: String,
+      default: 'black',
+    },
+    pointer: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -35,7 +43,9 @@ export default {
   computed: {
     computedStyle() {
       return {
+        color: this.color,
         fontSize: this.fontSize,
+        cursor: this.pointer ? 'pointer' : '',
       }
     }
   },

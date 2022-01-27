@@ -21,7 +21,7 @@ requireContext.keys().some(item => {
 export default {
   install: (app) => {
     Object.keys(utilModuleMap).forEach(moduleName => {
-      app.config.globalProperties[`$${moduleName}`] = utilModuleMap[moduleName]; 
+      app.config.globalProperties[`$${moduleName.toLowerCase()}`] = utilModuleMap[moduleName]; 
     });
     // app.config.globalProperties.$moment = moment; 
   }

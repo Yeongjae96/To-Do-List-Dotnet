@@ -1,9 +1,31 @@
 <template>
-  <transition name="slide-down">
-    <div class="modal-mask" v-show="option.visible">
+  <transition name="slide-fade">
+    <div class="modal-mask" v-show="visible">
       <div class="modal-wrapper">
         <div class="modal-container" :style="computedStyle">
-          <component :key="comp.name" :is="comp" />
+          <div class="modal-header">
+            <h3>
+              {{ title }}
+            </h3>
+            <y-icon 
+              name="times" 
+              fontSize="2rem"
+              color="lightgrey"
+              pointer
+              @click="closePopup"/> 
+          </div>
+          <div class="modal-body">
+            <slot name="default"></slot>
+          </div>
+          <div class="modal-footer">
+            <slot name="footerButtonList"></slot>
+            <y-button 
+              @click="closePopup"
+              :text="'닫기'"  
+              width="80px"
+              height="40px"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -16,23 +38,9 @@ import { POPUP } from '@/store/store-types'
 export default {
   name: 'y-modal',
   props: {
-    option: {
-      type: Object,
-      default: () => {
-        return {
-          visible: false,
-          closeCallback: () => {},
-          parameters: {},
-          height: '100px',
-          width: '80%',
-        }
-      },
-    },
-    comp: {
-      type: [Function, Object],
-      default: () => {
-        return () => {};
-      }
+    title: {
+      type: String,
+      default: 'Title',
     },
     visible: {
       type: Boolean,
@@ -46,12 +54,15 @@ export default {
     },
     width: {
       type: String,
-      default: () => '80%',
+      default: () => '90%',
     },
     height: {
       type: String,
-      default: () => '500px',
-    }
+      default: () => '600px',
+    },
+    closeCallback: {
+      type: Function,
+    },
   },
   computed: {
     ...mapGetters(POPUP),
@@ -68,12 +79,14 @@ export default {
   },
   watch: {
   },
+  created() {
+  },
   mounted() {
   },
   methods: {
-    closeEvent() {
-      if (this.option.closeCallback && typeof(this.option.closeCallback) === 'function') {
-        this.option.closeCallback();
+    closePopup() {
+      if (this.closeCallback && typeof(this.closeCallback) === 'function') {
+        this.closeCallback();
       }
       this.$emit('close');
     }
@@ -91,49 +104,61 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0, 0.5);
-    transition: opacity ease 0.3;
+    transition: all ease 0.3;
     & .modal-wrapper {
       @include flexRow;
       position: relative;
       width: 100%;
       height: 100%;
       & .modal-container {
+        @include flexColumn;
         width: 300px;
         margin: 0px auto;
-        padding: 20px 30px;
         background-color: #fff;
         border-radius: 2px;
+        position: relative;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-        transition: all 0.3s ease;
+        transition: all 0.3s ease-in-out;
         font-family: Helvetica, Arial, sans-serif;
-        & .modal-header h3 {
-          margin-top: 0;
-          color: #42b983;
-        }
+        & .modal-header {
+          @include flexRow;
+          padding: 0 20px 0 20px;
+          justify-content: space-between;
+          background-color: #272727;
+          & h3 {
+            @include flexRow;
+            width: 50%;
+            min-height: 30px;
+            padding: 10px 0 10px 0;
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-bottom: 1px solid lightgray;
+            color: lightgrey;
+          }
+        } 
 
         & .modal-body {
           margin: 20px 0;
-          }
+          padding: 20px 30px;
+          flex-grow: 1;
+          overflow: auto;
+          height: 0px;
+        }
 
-        & .modal-default-button {
-          float: right;
+        & .modal-footer {
+          display: flex;
+          justify-content: flex-end;
+          position: relative;
+          padding: 0 10px 5px 0;
+          transform: translateY(-100%);
+          margin-top: 20px;
+          height: 20px;
         }
       }
     }
   }
-  .modal-enter {
-    opacity: 0;
-  }
 
-  .modal-leave-active {
-    opacity: 0;
-  }
-
-  .modal-enter .modal-container,
-  .modal-leave-active .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-  }
   .modal-body,
   .modal {
     color: #666 !important;

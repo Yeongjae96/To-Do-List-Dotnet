@@ -30,13 +30,14 @@ export default {
     },
     size() {
       return {
-        width: typeof(this.width) == 'number' ? `${this.width}px` : this.width,
-        height: typeof(this.height) == 'number' ? `${this.height}px` : this.height
+        minWidth: typeof(this.width) == 'number' ? `${this.width}px` : this.width,
+        minHeight: typeof(this.height) == 'number' ? `${this.height}px` : this.height
       }
     },
     computedBackgroundColor() {
       return {
         backgroundColor: this.backgroundColor,
+        color: this.color,
       }
     }
   }

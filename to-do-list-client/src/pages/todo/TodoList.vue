@@ -6,12 +6,12 @@
       </template>
       <template #content>
         <div class="todo__alert">
-          알림줄 &lt;구현예정&gt;
+          알림줄 &lt;구현예정 &gt;
         </div>
         <div class="todo__insert">
           <y-input 
             type="text" 
-            width="100%" 
+            width="85%" 
             height="30px" 
             borderColor="gray" 
             v-model="inputValue" 
@@ -25,6 +25,7 @@
             backgroundColor="#EE5058"
             text="추가"
             @click="(e) => createTodo(inputValue)"
+            color="white"
           />
         </div>
         <ul class="todo__list">
@@ -37,6 +38,7 @@
               v-bind="todo"
               @delete="deleteTodo"
               @update="openUpdateTodo"
+              @click="onClick"
             />
           </template>
           <y-empty-list v-else
@@ -49,45 +51,56 @@
       </template>
     </y-card>
     <y-modal
-      :="option"
+      :width="modalOption.width"
+      :height="modalOption.height"
+      :title="currentCom.title"
       @close="() => option.visible = false"
     >
+      <component :key="currentCom.component" :is="currentCom.component" />
     </y-modal>
   </div>
 </template>
 <script>
 import TodoItem from '@/components/todo/TodoItem'
+import TodoUpdate from './TodoUpdate'
 
 export default {
   name: 'todo-list',
   components: {
     TodoItem,
+    TodoUpdate
   },
   // alternativeUrl: 'todo/todos',
   data() {
     return {
-      name: 'TODO-LIST',
+      name: 'todo-list',
       inputValue: '',
       todoList: [],
       option: {
         visible: false,
         height: '500px',
         param: {},
-        comp: Function(),
+      },
+      currentCom: {
+        title: '',
+        component: '',
+      },
+      modalOption: {
+        width: '90%',
+        height: '90%',
       }
     };
   },
   created() {
+    console.log(this.$const);
+    console.log(this);
+
     this.init().catch(error => console.error(error));
   },
   mounted() {
   },
   methods: {
     async init() {
-      
-      this.option.comp = import('./TodoUpdate.vue');
-      console.log(this.comp);
-
       this.todoList = await this.getTodoList();
     },
     async getTodoList() {
@@ -106,7 +119,7 @@ export default {
         subject: title, 
         priority: 0,
         flag: 'N',
-        regDate: this.$Date.getToday(),
+        regDate: this.$date.getToday(),
       });
       this.inputValue = '';
     },
@@ -114,9 +127,23 @@ export default {
       this.todoList = this.$_.filter(this.todoList, todo => todo.id!==id);
     },
     openUpdateTodo(id) {
+      this.currentCom = { title: '할 일 수정', component: 'todo-update' } ;
       this.option.param.id = id;
       this.option.visible = true;
     },
+    onClick({tagName, id}) {
+      const eventMap = {
+        'priority': () => {
+          const todo = this.selectTodoListById(id);
+          todo.priority = (todo.priority + 1) % 3; 
+        },
+      }
+      const func = eventMap[tagName] || Function(`console.log("${tagName}")`);
+      func.call(); 
+    },
+    selectTodoListById(id) {
+      return this.$_.filter(this.todoList, item => item.id === id)[0];
+    }
   }
 }
 </script>

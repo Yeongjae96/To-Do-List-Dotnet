@@ -1,12 +1,15 @@
 <template>
   <li class="todo__item">
-    <div class="todo__subject">
+    <div class="todo__subject" :class="priority === 2 ? 'completed' : ''">
       {{ subject }}
     </div>
-    <div class="todo__priority">
-      {{ priority }}
+    <div class="todo__priority" @click="onClick('priority')">
+      <y-icon 
+        name="circle"
+        :color="priorityColor"
+      />
     </div>
-    <div class="todo__tag">
+    <div class="todo__tag" @click="onClick('tag')">
       <y-icon name="tags" fontSize="1.5rem" />
     </div>
     <div class="todo__reg_date">
@@ -18,13 +21,14 @@
         height="40px"
         backgroundColor="lightblue"
         text="수정"
+        color="white"
         @click="updateTodo" />
       <y-button
         width="50px"
         height="40px"
         backgroundColor="#EE5058"
         text="삭제"
-        :effect="true"
+        color="white"
         @click="deleteTodo(id)" />
     </div>
   </li>
@@ -33,6 +37,7 @@
 <script>
 export default {
   name: 'todo-item',
+  inheritAttrs: false,
   components: {
   },
   props: {
@@ -65,14 +70,25 @@ export default {
   computed: {
     isSubjectUpdateMode() {
       return this.$_.includes(this.updateMode, 'subject');
+    },
+    priorityColor() {
+      return this.$const.TODO.priorityColor[this.priority];
+    },
+    subjectStyle() {
+      return this.priority === 1;
     }
   },
+  created() {
+  },
   methods: {
-    deleteTodo(id) {
-      this.$emit('delete', id);
+    deleteTodo() {
+      this.$emit('delete', this.id);
     },
     updateTodo() {
       this.$emit('update', this.id);
+    },
+    onClick(tagName) {
+      this.$emit('click', { tagName, id: this.id});
     }
   }
 }
@@ -95,19 +111,21 @@ export default {
     }
     
     & .todo__subject {
-      width: 50%;
+      width: 40%;
+      padding-left: 20px;
+      flex: 1;
     }
 
     & .todo__priority {
       width: 10%;
+      cursor: pointer;
     }
-
     
     & .todo__tag {
       width: 10%;
     }
     & .todo__reg_date {
-      width: 20%;
+      width: 15%;
     }
 
     & .todo__buttons {
@@ -116,6 +134,10 @@ export default {
       @include notLastChild {
         margin-right: 5px;
       }
+    }
+
+    .completed {
+      text-decoration: line-through;
     }
 
   }

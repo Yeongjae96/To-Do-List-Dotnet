@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9IiSHopjJMSnlFO9xNrD3X+7uI0DJYfxPVIqoebSsT0N6VYtTRlLqjcnL91heVPYMr7W7r/aIVIQibVZmD61jw==",
+  "dgSpecHash": "vcOkds7eTvkFeaU8RIt3wJDJ70/Mj5iWmASJqiBzck3KgF6xCvP8cRKEwQSZk37HegkNWvL+sP4jbKY1lkRwDQ==",
   "success": true,
-  "projectFilePath": "D:\\Source\\TodoList\\TodoList.csproj",
+  "projectFilePath": "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SKMAGIC-N\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\SKMAGIC-N\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

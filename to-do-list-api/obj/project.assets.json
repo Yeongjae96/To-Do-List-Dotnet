@@ -208,24 +208,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SKMAGIC-N\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\SKMAGIC-N\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Source\\TodoList\\TodoList.csproj",
+      "projectUniqueName": "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj",
       "projectName": "TodoList",
-      "projectPath": "D:\\Source\\TodoList\\TodoList.csproj",
+      "projectPath": "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj",
       "packagesPath": "C:\\Users\\SKMAGIC-N\\.nuget\\packages\\",
-      "outputPath": "D:\\Source\\TodoList\\obj\\",
+      "outputPath": "D:\\Source\\TodoList\\to-do-list-api\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\SKMAGIC-N\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

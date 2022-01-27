@@ -1,12 +1,7 @@
 <template>
-  <y-card>
-    <template v-slot:title>
-      안녕하세요
-    </template>
-    <template v-slot:content>
-      안녕들하세요?
-    </template>
-  </y-card>
+  <div>
+    안녕하세요 반갑습니다.  
+  </div>
 </template>
 
 <script>
