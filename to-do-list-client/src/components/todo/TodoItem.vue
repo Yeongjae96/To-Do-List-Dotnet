@@ -76,7 +76,7 @@ export default {
     },
     subjectStyle() {
       return this.priority === 1;
-    }
+    },
   },
   created() {
   },

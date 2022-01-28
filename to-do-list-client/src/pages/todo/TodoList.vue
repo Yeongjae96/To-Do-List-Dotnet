@@ -51,7 +51,6 @@
       </template>
     </y-card>
     <y-modal
-      :title="currentCom.title"
       :="modalOption"
       @close="() => modalOption.visible = false"
     >
@@ -63,8 +62,6 @@
 </template>
 <script>
 import TodoItem from '@/components/todo/TodoItem'
-import { defineAsyncComponent } from 'vue' 
-
 export default {
   name: 'todo-list',
   components: {
@@ -81,10 +78,8 @@ export default {
         param: {},
         width: '90%',
         height: '90%',
-      },
-      currentCom: {
         title: '',
-        component: '',
+        path: '',
       },
     };
   },
@@ -121,7 +116,8 @@ export default {
       this.todoList = this.$_.filter(this.todoList, todo => todo.id!==id);
     },
     openUpdateTodo(id) {
-      this.currentCom = { title: '할 일 수정', component: defineAsyncComponent(() => import('./TodoUpdate.vue')) } ;
+      this.modalOption.title = '할 일 수정';
+      this.modalOption.path = '/todo/TodoUpdate';
       this.modalOption.param.id = id;
       this.modalOption.visible = true;
     },

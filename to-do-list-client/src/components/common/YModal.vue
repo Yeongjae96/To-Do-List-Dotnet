@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade" mode="out-in">
-    <div class="modal-mask" v-show="visible">
+    <div class="modal-mask" v-if="visible">
       <div class="modal-wrapper">
         <div class="modal-container" :style="computedStyle">
           <div class="modal-header">
@@ -15,7 +15,8 @@
               @click="closePopup"/> 
           </div>
           <div class="modal-body">
-            <slot name="default">기본값</slot>
+            <component :key="title" :is="componentFile" />
+            <!-- <slot name="default">기본값</slot> -->
           </div>
           <div class="modal-footer">
             <slot name="footerButtonList"></slot>
@@ -35,6 +36,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { POPUP } from '@/store/store-types'
+import { defineAsyncComponent } from 'vue'
 export default {
   name: 'y-modal',
   props: {
@@ -63,6 +65,10 @@ export default {
     closeCallback: {
       type: Function,
     },
+    path: {
+      type: String,
+      default: () => '',
+    }
   },
   computed: {
     ...mapGetters(POPUP),
@@ -72,6 +78,9 @@ export default {
         height: this.height,
       }
     },
+    componentFile() {
+      return defineAsyncComponent(() => import(`@/pages${this.path}.vue`));
+    }
   },
   data() {
     return {
