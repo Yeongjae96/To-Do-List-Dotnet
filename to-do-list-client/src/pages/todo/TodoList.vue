@@ -51,24 +51,24 @@
       </template>
     </y-card>
     <y-modal
-      :width="modalOption.width"
-      :height="modalOption.height"
       :title="currentCom.title"
-      @close="() => option.visible = false"
+      :="modalOption"
+      @close="() => modalOption.visible = false"
     >
-      <component :key="currentCom.component" :is="currentCom.component" />
+      <template #default>
+        <component :key="currentCom.component" :is="currentCom.component" />
+      </template>
     </y-modal>
   </div>
 </template>
 <script>
 import TodoItem from '@/components/todo/TodoItem'
-import TodoUpdate from './TodoUpdate'
+import { defineAsyncComponent } from 'vue' 
 
 export default {
   name: 'todo-list',
   components: {
     TodoItem,
-    TodoUpdate
   },
   // alternativeUrl: 'todo/todos',
   data() {
@@ -76,28 +76,22 @@ export default {
       name: 'todo-list',
       inputValue: '',
       todoList: [],
-      option: {
+      modalOption: {
         visible: false,
-        height: '500px',
         param: {},
+        width: '90%',
+        height: '90%',
       },
       currentCom: {
         title: '',
         component: '',
       },
-      modalOption: {
-        width: '90%',
-        height: '90%',
-      }
     };
   },
   created() {
-    console.log(this.$const);
-    console.log(this);
-
-    this.init().catch(error => console.error(error));
   },
   mounted() {
+    this.init().catch(error => console.error(error));
   },
   methods: {
     async init() {
@@ -127,9 +121,9 @@ export default {
       this.todoList = this.$_.filter(this.todoList, todo => todo.id!==id);
     },
     openUpdateTodo(id) {
-      this.currentCom = { title: '할 일 수정', component: 'todo-update' } ;
-      this.option.param.id = id;
-      this.option.visible = true;
+      this.currentCom = { title: '할 일 수정', component: defineAsyncComponent(() => import('./TodoUpdate.vue')) } ;
+      this.modalOption.param.id = id;
+      this.modalOption.visible = true;
     },
     onClick({tagName, id}) {
       const eventMap = {

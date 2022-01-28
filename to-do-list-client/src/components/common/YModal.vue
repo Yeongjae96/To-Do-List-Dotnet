@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade">
+  <transition name="slide-fade" mode="out-in">
     <div class="modal-mask" v-show="visible">
       <div class="modal-wrapper">
         <div class="modal-container" :style="computedStyle">
@@ -15,7 +15,7 @@
               @click="closePopup"/> 
           </div>
           <div class="modal-body">
-            <slot name="default"></slot>
+            <slot name="default">기본값</slot>
           </div>
           <div class="modal-footer">
             <slot name="footerButtonList"></slot>

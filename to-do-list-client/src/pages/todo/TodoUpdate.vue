@@ -8,7 +8,6 @@
 export default {
   name: 'todo-update',
   props: {
-    
   },
   data() {
     return {};
