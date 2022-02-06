@@ -1,13 +1,13 @@
 const TODO = {
-  priorityColor: {
-    0: 'black',
-    1: '#EE5058',
-    2: 'lightgreen'
-  } 
-}
-
-
+  completedColor: {
+    // 0: 'black',
+    // 1: '#EE5058',
+    // 2: 'lightgreen'
+    false: "red",
+    true: "lightgreen",
+  },
+};
 
 export default {
-  TODO
-}
+  TODO,
+};

@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "start": "npm run serve",
-    "serve": "vue-cli-service serve",
+    "start-out": "npm run serve-out",
+    "serve": "vue-cli-service serve --mode local",
+    "serve-out": "vue-cli-service serve --mode local-out",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "jest --watch"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -48,9 +51,12 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/no-unused-components": ["error", {
-        "ignoreWhenBindingPresent": true
-      }]
+      "vue/no-unused-components": [
+        "error",
+        {
+          "ignoreWhenBindingPresent": true
+        }
+      ]
     }
   },
   "browserslist": [

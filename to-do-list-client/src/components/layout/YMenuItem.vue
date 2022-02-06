@@ -1,49 +1,51 @@
 <template>
-  <router-link :to="url" 
-    v-slot="{navigate, isActive, isExactActive}"
-  >
-    <li class="menu_item__li" @click="navigate" :class="[isActive && 'active', isExactActive && 'router-link-exact-active']">
-      <y-icon :name="icon" :size="imageSize"/>
+  <router-link :to="url" v-slot="{ navigate, isActive, isExactActive }">
+    <li
+      class="menu_item__li"
+      @click="navigate"
+      :class="[
+        isActive && 'active',
+        isExactActive && 'router-link-exact-active',
+      ]"
+    >
+      <y-icon :name="icon" :size="imageSize" />
       <p>
-        {{title}}
+        {{ title }}
       </p>
     </li>
-    
-  </router-link>  
+  </router-link>
 </template>
 
 <script>
 export default {
-  name: 'y-menu-item',
+  name: "y-menu-item",
   props: {
     title: {
       type: String,
     },
     url: {
       type: String,
-      default: '',
+      default: "",
     },
     icon: {
       type: String,
-      default: '',
+      default: "",
     },
     imageSize: {
       type: String,
-      default: 'sm',
+      default: "sm",
     },
     isActive: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   methods: {
     routeLink() {
       this.$router.push(this.url);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -1,60 +1,71 @@
 <template>
-  <font-awesome-icon :class="className" :icon="['fas', name]" :size="size" :style="computedStyle"/>
+  <div :style="computedStyle">
+    <font-awesome-icon :class="className" :icon="['fas', name]" :size="size" />
+    <!-- :style="computedStyle" -->
+  </div>
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 export default {
-  name: 'y-icon',
+  name: "y-icon",
   components: {
     FontAwesomeIcon,
   },
   props: {
     className: {
       type: [String, Array],
-      default: () => '',
+      default: () => "",
     },
     name: {
       type: String,
-      default: 'times',
+      default: "times",
     },
     size: {
       type: String,
-      default: 'sm',
+      default: "sm",
     },
     fontSize: {
       type: String,
-      default: '1rem'
+      default: "1rem",
     },
     color: {
       type: String,
-      default: 'black',
+      default: "black",
     },
     pointer: {
       type: Boolean,
       default: false,
-    }
+    },
+    hover: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
-      style: {},  
+      style: {},
     };
   },
   computed: {
     computedStyle() {
       return {
-        color: this.color,
         fontSize: this.fontSize,
-        cursor: this.pointer ? 'pointer' : '',
-      }
-    }
+        cursor: this.pointer ? "pointer" : "",
+        "--color": this.color,
+        "--color-hover": this.hover || this.color,
+      };
+    },
   },
-  mounted() {
-  },
-  methods: {
+  mounted() {},
+  methods: {},
+};
+</script>
+<style lang="scss" scoped>
+div {
+  color: var(--color);
+  &:hover {
+    color: var(--color-hover);
   }
 }
-</script>
-<style scoped>
-  
 </style>

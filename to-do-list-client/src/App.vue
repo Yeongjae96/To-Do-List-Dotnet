@@ -1,15 +1,24 @@
 <template>
   <router-view></router-view>
+  <y-loading :loading="loading" />
 </template>
 <script>
+import YLoading from "@/components/common/YLoading";
 export default {
-  name: 'App',
-  data() { return {}}
-}
+  name: "App",
+  components: {
+    YLoading,
+  },
+  data() {
+    return {
+      loading: false,
+    };
+  },
+};
 </script>
 
 <style lang="scss">
-@import '@/sass/main.scss';
+@import "@/sass/main.scss";
 
 body {
   overflow: hidden;
@@ -24,5 +33,4 @@ body {
   width: 100%;
   position: relative;
 }
-
 </style>
