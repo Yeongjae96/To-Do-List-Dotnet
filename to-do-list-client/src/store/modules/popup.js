@@ -6,7 +6,7 @@ const actions = {};
 
 const mutations = {
   MUT_LOADING(state, payload) {
-    state.loading = payload;
+    state.loading = Boolean(payload);
   },
 };
 

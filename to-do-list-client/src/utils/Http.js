@@ -1,7 +1,9 @@
 import axios from "axios";
 import backendConfig from "@/config/backendConnection";
+import store from '@/store'
 
 axios.defaults.baseURL = backendConfig.host;
+// axios.defaults.
 
 const isGet = (method) => method.toLowerCase() === "get";
 const getUrlWithData = (url, data) =>
@@ -33,6 +35,8 @@ function getUrl({ url, method, data, version = "v1" }) {
 }
 
 export function request(param) {
+  store.commit('popup/MUT_LOADING', true);
+  console.log(store);
   return axios({
     url: getUrl(param),
     method: param.method,
@@ -41,7 +45,14 @@ export function request(param) {
 }
 
 export async function requestAndGetData(param) {
-  const response = await request(param);
-  if (response.status !== 200) throw new Error(response);
-  return response.data;
+  let result = {};
+  try {
+    const response = await request(param);
+    if (response.status !== 200) throw new Error(response);
+    result = response.data;
+  } catch(e) {
+    console.error(e);
+  }
+  store.commit('popup/MUT_LOADING', false);
+  return result;
 }

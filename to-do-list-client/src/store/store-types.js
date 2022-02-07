@@ -10,6 +10,5 @@ function generateConstMap(...data) {
 // )
 
 export const POPUP = generateConstMap(
-  'GET_POPUP_COUNT',
-  'GET_DEFAULT_Z_INDEX'
+  'MUT_LOADING',
 );

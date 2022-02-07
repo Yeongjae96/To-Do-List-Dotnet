@@ -1,4 +1,4 @@
 export default {
-  // , getters, rootState, rootGetters
-  loading: (state) => state.loading,
+  // 
+  loading: (state, getters, rootState) => rootState.popup.loading,
 };
