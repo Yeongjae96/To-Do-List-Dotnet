@@ -2,23 +2,46 @@
   <div class="container">
     <router-view />
     <y-loading :loading="loading" />
+    <template v-if="popupList.length">
+      <y-popup :key="popup.id" v-for="popup in popupList" v-bind="popup" />
+    </template>
   </div>
 </template>
 <script>
 import YLoading from "@/components/common/YLoading";
-import { computed } from "vue";
+import YPopup from "@/components/common/YPopup";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "App",
   components: {
     YLoading,
+    YPopup,
   },
   setup() {
     const store = useStore();
-    console.log(store.getters.loading);
     const loading = computed(() => store.getters.loading);
+    const popupList = computed(() => store.getters.popupList);
+    console.log("before", popupList.value);
+
+    onMounted(() => {
+      setTimeout(() => {
+        store.commit(
+          "popup/MUT_POPUP_PUSH",
+          {
+            mode: "insert",
+            id: 1,
+            title: "테스트1",
+            content: "테스트1입니다.",
+          },
+          1000
+        );
+        console.log("after", popupList.value);
+      });
+    });
     return {
       loading,
+      popupList,
     };
   },
 };

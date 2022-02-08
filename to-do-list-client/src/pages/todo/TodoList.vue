@@ -98,18 +98,16 @@ export default {
   },
   methods: {
     async init() {
-      this.todoList = await getTodoList();
+      this.reloadTodoList();
     },
     async createTodo(title) {
-      // console.log("실행", title);
-      // return;
-
       if (this.$_.isEmpty(title)) return;
 
       const response = await insertTodo({
         title: this.inputValue,
         completed: false,
       });
+
       if (response.status !== 200) {
         console.error("ERROR!", response);
         return;

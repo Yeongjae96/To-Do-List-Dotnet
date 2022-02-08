@@ -18,21 +18,25 @@
           </div>
           <div class="modal-body">
             <component
-              v-if="visible"
+              v-if="visible && path"
               :key="title"
               :is="componentFile"
               :param="param"
             />
+            <template v-else>
+              <slot name="content"></slot>
+            </template>
             <!-- <slot name="default">기본값</slot> -->
           </div>
           <div class="modal-footer">
-            <slot name="footerButtonList"></slot>
-            <y-button
-              @click="closePopup"
-              :text="'닫기'"
-              width="80px"
-              height="40px"
-            />
+            <slot name="footerButtonList">
+              <y-button
+                @click="closePopup"
+                :text="'닫기'"
+                width="80px"
+                height="40px"
+              />
+            </slot>
           </div>
         </div>
       </div>
@@ -145,8 +149,8 @@ export default {
           margin-top: 0;
           font-size: 1.5rem;
           font-weight: bold;
-          border-bottom: 1px solid lightgray;
-          color: lightgrey;
+          // border-bottom: 1px solid lightgray;
+          color: #eee;
         }
       }
 
