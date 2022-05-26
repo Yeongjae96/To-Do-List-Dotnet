@@ -51,7 +51,7 @@
               @click="onClick"
             />
           </template>
-          <y-empty-list v-else message="항목이 존재하지 않습니다." />
+          <y-empty-list v-else :message="emptyMessage" />
         </ul>
       </template>
       <template #tail> 각종 아이콘 메뉴 </template>
@@ -90,6 +90,7 @@ export default {
         title: "",
         path: "",
       },
+      emptyMessage: '항목이 존재하지 않습니다.',
     };
   },
   created() {},
@@ -98,7 +99,14 @@ export default {
   },
   methods: {
     async init() {
-      this.reloadTodoList();
+      try {
+        await this.reloadTodoList();
+      } catch(e) {
+        console.log(e);
+        if (e.message.startsWith('Network Error')) {
+          this.emptyMessage = '통신 오류로 인해 목록을 불러오지 못했습니다. 잠시 후에 다시 시도 바랍니다.' 
+        }
+      }
     },
     async createTodo(title) {
       if (this.$_.isEmpty(title)) return;

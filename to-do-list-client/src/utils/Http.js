@@ -44,6 +44,7 @@ const loadingApi = (() => {
         result = await func.call(func, params);
       } catch (e) {
         console.error(e);
+        result = e;
       } finally {
         loadingApi.apiCallMap.delete(apiID);
       }
@@ -59,21 +60,6 @@ const loadingApi = (() => {
 
 export function request(param) {
   store.commit("popup/MUT_LOADING", true);
-  // const longlongFunction = async () => {
-  //   return { status: 200, data: { text: "hi" } };
-  // };
-  // console.log(param, getUrl(param));
-
-  // return new Promise((resolve) => {
-  //   setTimeout(
-  //     () => {
-  //       const response = longlongFunction();
-  //       console.log(param.immedate);
-  //       resolve(response);
-  //     },
-  //     param.immediate ? 0 : 1000
-  //   );
-  // });
   return axios({
     url: getUrl(param),
     method: param.method,
@@ -82,13 +68,10 @@ export function request(param) {
 }
 export async function requestAndGetData(param) {
   let result = {};
-  try {
-    const response = await loadingApi.wrappingFunc(request, param);
-    // const response = await request(param);
-    if (response.status !== 200) throw new Error(response);
-    result = response.data;
-  } catch (e) {
-    console.error(e);
-  }
+  const response = await loadingApi.wrappingFunc(request, param);
+  if (response instanceof Error) throw response;
+  else if (response.status !== 200) throw new Error(response.status);
+  result = response.data;
   return result;
 }
+

@@ -29,7 +29,7 @@ export default {
     const { title, id } = toRefs(props);
     const store = useStore();
     const test = () => {
-      store.commit("popup/MUT_POPUP_REMOVE", { id });
+      store.commit("popup/MUT_POPUP_REMOVE", { id: id.value });
     };
     return {
       title,

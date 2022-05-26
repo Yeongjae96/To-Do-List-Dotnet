@@ -1,0 +1,1 @@
+dotnet ef dbcontext scaffold "Server=mik-study-01.cwr5pft7om8g.ap-northeast-2.rds.amazonaws.com;user id=admin;password=passw0rd!;Database=TodoList_YJ;" Pomelo.EntityFrameworkCore.MySql -o DB

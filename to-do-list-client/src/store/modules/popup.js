@@ -21,11 +21,12 @@ const mutations = {
   },
   MUT_POPUP_PUSH(state, payload) {
     if (isDuplicatePopup(payload)) return;
+    console.log(payload, state.list);
     state.list.push(payload);
   },
   MUT_POPUP_REMOVE(state, payload) {
     console.log("before", state.list);
-    console.log(payload);
+    console.log(payload.id);
     state.list = state.list.filter((popup) => popup.id !== payload.id);
     console.log("after", state.list);
   },

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj": {}
+    "C:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\TodoList.csproj": {}
   },
   "projects": {
-    "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj": {
+    "C:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\TodoList.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj",
+        "projectUniqueName": "C:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\TodoList.csproj",
         "projectName": "TodoList",
-        "projectPath": "D:\\Source\\TodoList\\to-do-list-api\\TodoList.csproj",
-        "packagesPath": "C:\\Users\\SKMAGIC-N\\.nuget\\packages\\",
-        "outputPath": "D:\\Source\\TodoList\\to-do-list-api\\obj\\",
+        "projectPath": "C:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\TodoList.csproj",
+        "packagesPath": "C:\\Users\\SKMG\\.nuget\\packages\\",
+        "outputPath": "C:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\SKMAGIC-N\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SKMG\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,9 +40,41 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational.Design": {
+              "target": "Package",
+              "version": "[1.1.6, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.29, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
             }
           },
           "imports": [
@@ -63,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

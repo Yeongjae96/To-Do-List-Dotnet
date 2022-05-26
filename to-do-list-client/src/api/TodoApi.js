@@ -1,4 +1,4 @@
-import { request, requestAndGetData } from "@/utils/Http";
+import { requestAndGetData } from "@/utils/Http";
 export async function getTodoList(data) {
   return requestAndGetData({
     url: "/todo",
@@ -7,7 +7,7 @@ export async function getTodoList(data) {
   });
 }
 export async function insertTodo(data) {
-  return request({
+  return requestAndGetData({
     url: "/api/todo",
     method: "post",
     data,
