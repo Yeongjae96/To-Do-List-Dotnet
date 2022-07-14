@@ -23,8 +23,17 @@ export async function updateTodo(data) {
 
 export async function deleteTodo(data) {
   return requestAndGetData({
-    url: "/todo/{id}",
+    url: "/todo/{no}",
     method: "delete",
+    data,
+  });
+}
+
+
+export async function updateCompleted(data) {
+  return requestAndGetData({
+    url: "/todo/completed",
+    method: "put",
     data,
   });
 }

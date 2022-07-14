@@ -43,8 +43,8 @@
           <template v-if="todoList.length > 0">
             <todo-item
               v-for="(todo, idx) in todoList"
-              :key="todo.id"
-              :no="idx"
+              :key="todo.no"
+              :id="idx"
               v-bind="todo"
               @delete="deleteTodo"
               @update="openUpdateTodo"
@@ -54,7 +54,11 @@
           <y-empty-list v-else :message="emptyMessage" />
         </ul>
       </template>
-      <template #tail> 각종 아이콘 메뉴 </template>
+      <template #tail>
+        <todo-footer 
+          :count="totalCnt"
+        />
+      </template>
     </y-card>
     <y-modal :="modalOption" @close="() => (modalOption.visible = false)">
       <template #default>
@@ -65,9 +69,11 @@
 </template>
 <script>
 import TodoItem from "@/components/todo/TodoItem";
+import TodoFooter from "@/components/todo/TodoFooter";
 import {
   getTodoList,
   insertTodo,
+  updateCompleted,
   updateTodo as updateTodoApi,
   deleteTodo as deleteTodoApi,
 } from "@/api/TodoApi";
@@ -75,12 +81,14 @@ export default {
   name: "todo-list",
   components: {
     TodoItem,
+    TodoFooter,
   },
   // alternativeUrl: 'todo/todos',
   data() {
     return {
       name: "todo-list",
       inputValue: "",
+      totalCnt: 0,
       todoList: [],
       modalOption: {
         visible: false,
@@ -111,59 +119,61 @@ export default {
     async createTodo(title) {
       if (this.$_.isEmpty(title)) return;
 
-      const response = await insertTodo({
+      await insertTodo({
         title: this.inputValue,
-        completed: false,
+        // completed: 'N'',
       });
 
-      if (response.status !== 200) {
-        console.error("ERROR!", response);
-        return;
-      }
+      // if (response.status !== 200) {
+      //   console.error("ERROR!", response);
+      //   return;
+      // }
 
       this.reloadTodoList();
-      // success
-      // this.todoList.push({
-      //   id: `{t:${this.todoList.length}}`,
-      //   title: ,
-      //   priority: 0,
-      //   flag: "N",
-      //   regDate: this.$date.getToday(),
-      // });
       this.inputValue = "";
     },
     async updateTodo(todo) {
       await updateTodoApi(todo);
       this.reloadTodoList();
     },
-    async deleteTodo(id) {
-      // this.todoList = this.$_.filter(this.todoList, (todo) => todo.id !== id);
-      await deleteTodoApi({ id });
+    async deleteTodo(no) {
+      // this.todoList = this.$_.filter(this.todoList, (todo) => todo.no !== no);
+      await deleteTodoApi({ no });
       this.reloadTodoList();
     },
     async reloadTodoList() {
       this.todoList = await getTodoList();
+
+      this.todoList.forEach(item => {
+        var format = this
+                      .$moment(item.regDate)
+                      .format('YYYY-MM-DD HH:mm:ss');
+        item.regDate = format;
+
+      });
+
+
     },
-    openUpdateTodo(id) {
+    openUpdateTodo(no) {
       this.modalOption.title = "할 일 수정";
       this.modalOption.path = "/todo/TodoUpdate";
-      this.modalOption.param.id = id;
+      this.modalOption.param.id = no;
       this.modalOption.visible = true;
     },
-    onClick({ tagName, id }) {
+    onClick({ tagName, no }) {
       const eventMap = {
         completed: () => {
-          const todo = this.selectTodoListById(id);
+          const todo = this.selectTodoListById(no);
           // todo.priority = (todo.priority + 1) % 3;
           todo.completed = !todo.completed;
-          this.updateTodo(todo);
+          updateCompleted(todo);
         },
       };
       const func = eventMap[tagName] || Function(`console.log("${tagName}")`);
       func.call();
     },
-    selectTodoListById(id) {
-      return this.$_.filter(this.todoList, (item) => item.id === id)[0];
+    selectTodoListById(no) {
+      return this.$_.filter(this.todoList, (item) => item.no === no)[0];
     },
   },
 };

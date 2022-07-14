@@ -1,9 +1,20 @@
 import axios from "axios";
-import backendConfig from "@/config/backendConnection";
+// import backendConfig from "@/config/backendConnection";
 import store from "@/store";
 
-axios.defaults.baseURL = backendConfig.host;
+
+// axios.defaults.baseURL = backendConfig.host;
 // axios.defaults.
+
+const pascalToCamelKey = (obj) => {
+  return Object.keys(obj).reduce((a, key) => 
+    {
+      var cameledKey = key.replace(/^([A-Z]).*/, (v, g1) => g1.toLowerCase());
+      var originValue = obj[key];
+      a[cameledKey] = originValue;
+      return a;
+    }, {});
+}
 
 const isGet = (method) => method.toLowerCase() === "get";
 const getUrlWithData = (url, data) =>
@@ -67,11 +78,15 @@ export function request(param) {
   });
 }
 export async function requestAndGetData(param) {
-  let result = {};
+  // let result = {};
   const response = await loadingApi.wrappingFunc(request, param);
   if (response instanceof Error) throw response;
   else if (response.status !== 200) throw new Error(response.status);
-  result = response.data;
-  return result;
+  // result = response.data;
+  var camelResponse = pascalToCamelKey(response.data);
+  console.debug(camelResponse);
+  return camelResponse.data;
 }
+
+
 

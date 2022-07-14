@@ -1,7 +1,7 @@
 <template>
   <li class="todo__item">
     <div class="todo__no">
-      {{ no + 1 }}
+      {{ id + 1 }}
     </div>
     <div class="todo__subject" :class="{ completed }">
       {{ title }}
@@ -30,7 +30,7 @@
         backgroundColor="#EE5058"
         text="삭제"
         color="white"
-        @click="deleteTodo(id)"
+        @click="deleteTodo(no)"
       />
     </div>
   </li>
@@ -86,13 +86,13 @@ export default {
   created() {},
   methods: {
     deleteTodo() {
-      this.$emit("delete", this.id);
+      this.$emit("delete", this.no);
     },
     updateTodo() {
-      this.$emit("update", this.id);
+      this.$emit("update", this.no);
     },
     onClick(tagName) {
-      this.$emit("click", { tagName, id: this.id });
+      this.$emit("click", { tagName, no: this.no });
     },
   },
 };

@@ -1,21 +1,31 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using TodoList.DB;
+using Microsoft.EntityFrameworkCore;
+using TodoList.Contexts.Todo;
+using TodoList.Middlewares;
+using TodoList.Services.Todo;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers().AddNewtonsoftJson();
 
-builder.Services.AddControllers();
+// Add Context
+builder.Services.AddDbContext<TodoContext>(options => 
+{
+    options.UseMySql(builder.Configuration.GetConnectionString("MariaDbConnectionString")
+                , ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MariaDbConnectionString"))
+    );
+});
+
+// Add Services
+builder.Services.AddScoped<TodoService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// DI 서비스 추가
-// builder.Services.AddScoped<>
-
 var app = builder.Build();
+
+app.UsePathBase(new PathString("/api"));
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,14 +34,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Configure HTTP request pipeline
+{
+    app.UseCors(x => x
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 
-app.UseHttpsRedirection();
+    app.UseMiddleware<ErrorHandlerMiddleware>();
+}
 
+
+// app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.MapControllerRoute(name: "default",
 pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
