@@ -17,7 +17,7 @@ public class TodoController : YControllerBase
   }
 
   [HttpGet]
-  public async Task<IActionResult> Get([FromBody] SearchParam<TodoItem> searchParam)
+  public async Task<IActionResult> SelectList([FromQuery]SearchParam<TodoItem> searchParam)
   {
     var result = await _service.GetTodos(searchParam);
     return OkJson(result);

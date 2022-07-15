@@ -1,16 +1,23 @@
 <template>
   <div>
-    안녕하세요 꼬릿글입니다.    
+    <y-pagination :="pagination"/>
   </div>
 </template>
 <script>
-import { reactive } from 'vue' 
+import { ref } from 'vue' 
 export default {
+  props: {
+    pagination: {
+      type: Object,
+      default: () => { return {}; },
+    }
+  },
   setup(props) {
-
-    var rProps = reactive(props);
-
-    console.log(11, rProps);
+    const pagination = ref(props.pagination);
+    
+    return {
+      pagination
+    }
   }
 }
 </script>

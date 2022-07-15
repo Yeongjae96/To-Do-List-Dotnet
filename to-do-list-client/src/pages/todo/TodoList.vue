@@ -56,7 +56,7 @@
       </template>
       <template #tail>
         <todo-footer 
-          :count="totalCnt"
+          :pagination="pagination"
         />
       </template>
     </y-card>
@@ -88,8 +88,18 @@ export default {
     return {
       name: "todo-list",
       inputValue: "",
-      totalCnt: 0,
       todoList: [],
+      searchParam: {
+        pageNo: 1,
+        pageSize: 10,
+        pageNumPerOnce: 10,
+        searchKeyword: '',
+        sortCondition: [
+          { propertyName: 'Completed', direction: 0, },
+          { propertyName: 'RegDate', direction: 0, },
+        ], 
+        data: null
+      },
       modalOption: {
         visible: false,
         param: {},
@@ -98,19 +108,20 @@ export default {
         title: "",
         path: "",
       },
+      pagination: null,
       emptyMessage: '항목이 존재하지 않습니다.',
     };
   },
   created() {},
   mounted() {
-    this.init().catch((error) => console.error(error));
+    this.init();
   },
   methods: {
     async init() {
       try {
         await this.reloadTodoList();
       } catch(e) {
-        console.log(e);
+        console.error(e);
         if (e.message.startsWith('Network Error')) {
           this.emptyMessage = '통신 오류로 인해 목록을 불러오지 못했습니다. 잠시 후에 다시 시도 바랍니다.' 
         }
@@ -121,20 +132,13 @@ export default {
 
       await insertTodo({
         title: this.inputValue,
-        // completed: 'N'',
       });
-
-      // if (response.status !== 200) {
-      //   console.error("ERROR!", response);
-      //   return;
-      // }
-
       this.reloadTodoList();
       this.inputValue = "";
     },
     async updateTodo(todo) {
       await updateTodoApi(todo);
-      this.reloadTodoList();
+      await this.reloadTodoList();
     },
     async deleteTodo(no) {
       // this.todoList = this.$_.filter(this.todoList, (todo) => todo.no !== no);
@@ -142,17 +146,17 @@ export default {
       this.reloadTodoList();
     },
     async reloadTodoList() {
-      this.todoList = await getTodoList();
-
+      // 결과값을 보낼때 SearchParam을 보내야한다.
+      var response = await getTodoList(this.searchParam); 
+      this.todoList = response.list;
+      this.pagination = response.pagination;
+      
       this.todoList.forEach(item => {
         var format = this
-                      .$moment(item.regDate)
-                      .format('YYYY-MM-DD HH:mm:ss');
+          .$moment(item.regDate)
+          .format('YYYY-MM-DD HH:mm:ss');
         item.regDate = format;
-
       });
-
-
     },
     openUpdateTodo(no) {
       this.modalOption.title = "할 일 수정";
@@ -166,7 +170,7 @@ export default {
           const todo = this.selectTodoListById(no);
           // todo.priority = (todo.priority + 1) % 3;
           todo.completed = !todo.completed;
-          updateCompleted(todo);
+          updateCompleted(todo).then(this.reloadTodoList);
         },
       };
       const func = eventMap[tagName] || Function(`console.log("${tagName}")`);

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TodoList.Common.Base;
 using TodoList.Common.Database;
 using TodoList.Common.Extensions;
 using TodoList.Common.Interface;
@@ -19,6 +20,7 @@ public class TodoItem
   [SqlDefaultValue(DefaultValue = "curdate()")]
   public DateTime? RegDate { get; set; }
   public string Content { get; set; }
-
   public bool Completed { get; set; }
+  [Column("completed_date", TypeName = "Datetime")]
+  public DateTime? CompletedDate { get; set; }
 }

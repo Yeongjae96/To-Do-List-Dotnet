@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TodoList.Models.Common;
 
 public class PaginationInfo
@@ -24,7 +26,8 @@ public class PaginationInfo
   public int TotalCnt { get; set; }
 
   /// 한번에 보일 게시물 개수
-  public int PageSize { get { return this.PageSize; } set { PageSize = value <= 0 ? 1 : value; } }
+  private int _pageSize;
+  public int PageSize { get { return this._pageSize; } set { _pageSize = value <= 0 ? 1 : value; } }
 
   /// 마지막 Pagination 번호
   public int MaxPageNum { get { return TotalCnt % PageSize == 0 ? TotalCnt / PageSize : TotalCnt / PageSize + 1; } }
@@ -36,8 +39,12 @@ public class PaginationInfo
   public bool IsNext { get { return CurrentMaxPageNum < MaxPageNum; } }
 
   /// Pagination 범위 (최소)
-  public int CurrentMinPageNum { get { return ((PageNo - 1) / PageNumPerOnce) * PageNumPerOnce; }}
+  public int CurrentMinPageNum { get { return ((PageNo - 1) / PageNumPerOnce) * PageNumPerOnce + 1; }}
 
   /// Pagination 범위 (최대)
-  public int CurrentMaxPageNum { get { return CurrentMinPageNum + PageNumPerOnce; }}
+  public int CurrentMaxPageNum { get { return CurrentMinPageNum * PageNumPerOnce > MaxPageNum ? MaxPageNum : CurrentMinPageNum * PageNumPerOnce; }}
+
+  /// Skip Count
+  [JsonIgnore]
+  public int SkipCount { get { return (PageNo - 1) * PageSize; }}
 }

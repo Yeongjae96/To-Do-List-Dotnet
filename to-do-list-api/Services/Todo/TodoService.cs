@@ -3,6 +3,7 @@ using TodoList.Common.Extensions;
 using TodoList.Common.Interface;
 using TodoList.Common.Util;
 using TodoList.Contexts.Todo;
+using TodoList.Models.Common;
 using TodoList.Models.Request;
 using TodoList.Models.Todo;
 
@@ -16,15 +17,16 @@ public class TodoService
     _context = context;
   }
 
-  public async Task<IEnumerable<TodoItem>> GetTodos<T>(SearchParam<T> searchParam) 
+  public async Task<SearchList<TodoItem>> GetTodos(SearchParam<TodoItem> searchParam)
   {
-    var result = await _context.TodoSet.ToListAsync();
+    // 페이징
+    var result = await _context.TodoSet.GetSearchList(searchParam);
 
-    result.ForEach(item => {
+    // 후처리 - 시차 맞추기 (Utc to Korea)
+    result.List.ForEach(item => {
       var originRegDate = item.RegDate.Value;
       item.RegDate = originRegDate.ToTimeZone(TimeZoneId.Korea);
     });
-
     return result;
   }
   
@@ -51,6 +53,7 @@ public class TodoService
 
     originTodo.Title = todoItem.Title;
     originTodo.Content = todoItem.Content;
+    originTodo.CompletedDate = DateTime.Now;
 
     _context.TodoSet.Update(originTodo);
     return await _context.SaveChangesAsync();

@@ -17,14 +17,14 @@ const pascalToCamelKey = (obj) => {
 }
 
 const isGet = (method) => method.toLowerCase() === "get";
+
 const getUrlWithData = (url, data) =>
-  data
-    ? Object.keys(data).reduce(
-        (prev, cur, idx) =>
-          idx === 0
-            ? `${prev}?${cur}=${data[cur]}`
-            : `${prev}&${cur}=${data[cur]}`,
-        url
+  data ? Object.keys(data).reduce(
+          (prev, cur, idx) => 
+            idx === 0 ? 
+            `${prev}?${cur}=${(data[cur])}` :
+            `${prev}&${cur}=${(data[cur])}`,
+          url
       )
     : url;
 
