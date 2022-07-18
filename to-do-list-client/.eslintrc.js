@@ -18,5 +18,7 @@ module.exports = {
       }
     ],
   "vue/no-dupe-keys": 0,
+  "no-dupe-class-members": 0,
+  "no-unused-vars": 0,
   }
 }

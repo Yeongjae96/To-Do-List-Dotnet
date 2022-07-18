@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using TodoList.Common.Interface;
 using TodoList.Models.Common;
 
@@ -11,7 +12,8 @@ public class SearchParam<T> : IPaginable
   public int PageNumPerOnce { get; set; }
   public string SearchKeyword { get; set; }
 
-  public SortingList SortConditions { get; set; }
+  [FromQuery(Name="sortCondition")]
+  public SortingList SortCondition { get; set; }
 
   public T Data { get; set; }
 

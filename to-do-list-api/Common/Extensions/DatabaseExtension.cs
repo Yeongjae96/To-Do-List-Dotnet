@@ -18,10 +18,10 @@ public static class DatabaseExtension
 
     var queryable = dbSet.AsQueryable();
 
-    if (searchParam.SortConditions != null && searchParam.SortConditions.Count > 0)
+    if (searchParam.SortCondition != null && searchParam.SortCondition.Count > 0)
     {
       bool first = true;
-      foreach (var sortCondition in searchParam.SortConditions)
+      foreach (var sortCondition in searchParam.SortCondition)
       {
         queryable = queryable.OrderBy(sortCondition.PropertyName, sortCondition.Direction, !first);
         if (first) first = false;

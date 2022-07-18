@@ -1,10 +1,7 @@
 import axios from "axios";
 // import backendConfig from "@/config/backendConnection";
 import store from "@/store";
-
-
-// axios.defaults.baseURL = backendConfig.host;
-// axios.defaults.
+import urlParser from './urlParser';
 
 const pascalToCamelKey = (obj) => {
   return Object.keys(obj).reduce((a, key) => 
@@ -18,15 +15,14 @@ const pascalToCamelKey = (obj) => {
 
 const isGet = (method) => method.toLowerCase() === "get";
 
-const getUrlWithData = (url, data) =>
-  data ? Object.keys(data).reduce(
-          (prev, cur, idx) => 
-            idx === 0 ? 
-            `${prev}?${cur}=${(data[cur])}` :
-            `${prev}&${cur}=${(data[cur])}`,
-          url
-      )
-    : url;
+const getUrlWithData = (url, data) => {
+  return url + '?' + urlParser.stringify({ value: data, });
+    // data ? Object.keys(data).reduce(
+    //   (prev, cur, idx) => `${prev}${idx === 0 ? '?' : '&'}${cur}=${urlParser.stringify({ key: cur, value: data[cur] })}`,
+    //   url
+    // )
+    // : url;
+}
 
 function getUrl({ url, method, data, version = "v1" }) {
   const apiStringIndex = url.indexOf("/api") + "/api".length;
