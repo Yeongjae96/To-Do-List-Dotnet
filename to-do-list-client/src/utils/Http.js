@@ -74,13 +74,10 @@ export function request(param) {
   });
 }
 export async function requestAndGetData(param) {
-  // let result = {};
   const response = await loadingApi.wrappingFunc(request, param);
   if (response instanceof Error) throw response;
   else if (response.status !== 200) throw new Error(response.status);
-  // result = response.data;
   var camelResponse = pascalToCamelKey(response.data);
-  console.debug(camelResponse);
   return camelResponse.data;
 }
 

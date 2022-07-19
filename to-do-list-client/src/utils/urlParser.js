@@ -16,8 +16,6 @@
 */
 import th from './typeHelper';
 
-let first = true;
-
 class UrlParser {
   constructor() {}
 
@@ -31,7 +29,6 @@ class UrlParser {
 
   #stringifyObject({ key: pKey, value, idx: pIdx }) {
     const keys = Object.keys(value);
-    
     const result = keys.reduce((prev, key, idx) => prev + this.#prefix(idx) + (pKey ? `${pKey}[${pIdx}].` : '') + this.stringify({
       key, value: value[key]
     }), '')
@@ -41,18 +38,24 @@ class UrlParser {
   
   #stringifyArray({ key: pKey , value }) {
     let result = '';
-    console.debug(pKey);
     result += value.reduce((prev, cur, idx) => {
       return prev + this.#prefix(idx) + this.stringify({ key: pKey, value: cur, idx });
     }, result);
 
     return result;
   }
-  
+  /*
+  * value값이 string이면
+  * key=value
+  */
   #stringifyString({ key, value, idx }) {
     return `${key}=${value}`;
   }
 
+  /*
+  * value값이 비었을때(null, undefined)
+  * key=
+  */
   #stringifyEmpty({ key }) {
     return `${key}=`;
   }
@@ -61,15 +64,11 @@ class UrlParser {
     let result = '';
     if (th.isNull(value) || th.isUndefined(value)) { // 값이 없을 때 
       result = this.#stringifyEmpty({ key });
-
     } else if (th.isArray(value)) { // 배열일때 
-      // result = value.reduce((prev, cur, idx) =>  { console.debug('array 중간', cur); return `${idx === 0 ? '' : prev + '&'}${key || '' + '.' + this.stringify({ key, value: cur })}` }, '');
       result = this.#stringifyArray({ key, value, });
-
     } else if (th.isObject(value)) { // 객체일때 
       result = this.#stringifyObject({ key, value, idx });
     } else { // string, number일때 
-      
       result = this.#stringifyString({ key, value, idx });
     } 
 

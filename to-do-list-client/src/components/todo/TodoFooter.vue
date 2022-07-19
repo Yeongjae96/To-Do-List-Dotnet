@@ -1,10 +1,10 @@
 <template>
   <div>
-    <y-pagination :="pagination"/>
+    <y-pagination @onClickPageNum="onClickPageNum" :="pagination"/>
   </div>
 </template>
 <script>
-import { ref } from 'vue' 
+import { toRefs } from 'vue' 
 export default {
   props: {
     pagination: {
@@ -12,10 +12,13 @@ export default {
       default: () => { return {}; },
     }
   },
-  setup(props) {
-    const pagination = ref(props.pagination);
-    
+  setup(props, { emit }) {
+    const { pagination } = toRefs(props);
+
+    const onClickPageNum = (e) => emit('onClickPageNum', e);
+
     return {
+      onClickPageNum,
       pagination
     }
   }

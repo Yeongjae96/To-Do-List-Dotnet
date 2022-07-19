@@ -56,6 +56,7 @@
       </template>
       <template #tail>
         <todo-footer 
+          @onClickPageNum="test"
           :pagination="pagination"
         />
       </template>
@@ -117,6 +118,11 @@ export default {
     this.init();
   },
   methods: {
+    test(e) {
+      console.log(e);
+      this.searchParam.pageNo = Number(e.target.textContext);
+      this.reloadTodoList();
+    },
     async init() {
       try {
         await this.reloadTodoList();
@@ -148,8 +154,11 @@ export default {
     async reloadTodoList() {
       // 결과값을 보낼때 SearchParam을 보내야한다.
       var response = await getTodoList(this.searchParam); 
+      console.debug(response)
       this.todoList = response.list;
       this.pagination = response.pagination;
+
+      console.debug('pagination', this.pagination);
       
       this.todoList.forEach(item => {
         var format = this

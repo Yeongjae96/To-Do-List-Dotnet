@@ -19,6 +19,7 @@ import YCard from "@/components/common/YCard";
 import YEmptyList from "@/components/common/YEmptyList";
 import YInput from "@/components/common/YInput";
 import YModal from "@/components/common/YModal";
+import YPagination from "@/components/common/YPagination";
 
 // Directives
 import { inputDebounce, enterDebounce } from "@/directives/debouncer";
@@ -40,6 +41,7 @@ app.component("y-card", YCard);
 app.component("y-empty-list", YEmptyList);
 app.component("y-input", YInput);
 app.component("y-modal", YModal);
+app.component("y-pagination", YPagination);
 
 app.directive("input-debounce", inputDebounce);
 app.directive("enter-debounce", enterDebounce);
