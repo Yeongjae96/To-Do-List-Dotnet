@@ -19,6 +19,14 @@ export default {
     backgroundColor: {
       type: String,
       default: 'inherit',
+    },
+    disableBorder: {
+      type: Boolean,
+      default: false,
+    },
+    borderStyle: {
+      type: String,
+      default: '',
     }
   },
   computed: {
@@ -26,6 +34,7 @@ export default {
       return {
         ...this.size,
         ...this.computedBackgroundColor,
+        ...this.computedBorder,
       }
     },
     size() {
@@ -38,6 +47,11 @@ export default {
       return {
         backgroundColor: this.backgroundColor,
         color: this.color,
+      }
+    },
+    computedBorder() {
+      return {
+        border: !this.disableBorder ? this.borderStyle : '0',
       }
     }
   }

@@ -3,11 +3,12 @@
     <template v-if="isPrev">
       &lt;
     </template>
-    <template v-if="totalCnt != null">
+    <template v-if="pageNo > 0">
       <div 
         v-for="(item) in currentRange"
         :key="'pagination__' + item"
         class="flex row center page-btn"
+        :class="{ current: pageNo === item }"
         @click="onPageClick"
       >
         {{ item }}
@@ -23,7 +24,7 @@ import { computed, toRefs } from 'vue';
 
 export default {
   name: 'y-pagination',
-  emits: ['onClickPageNum'],
+  // emits: ['onClickPageNum'],
   props: {
     pageNumPerOnce: {
       type: Number,
@@ -39,7 +40,7 @@ export default {
     },
     pageNo: {
       type: Number,
-      default: 1,
+      default: 0,
     },
     currentMinPageNum: {
       type: Number,
@@ -60,13 +61,11 @@ export default {
     // PageNum
     const initialPageNumbers = (item, idx) => currentMinPageNum.value + idx;
     const currentRange = computed(() => Array.from({ length: (currentMaxPageNum.value - currentMinPageNum.value + 1) }, initialPageNumbers));
-
+    
+      // 이벤트
     const onPageClick = (e) => {
-      console.debug(e);
-      emit('onClickPageNum', e);
+      emit('onClickPageNum', e.target);
     }
-
-    // 이벤트
 
     return {
       // state
@@ -75,6 +74,7 @@ export default {
       pageNo,
       totalCnt,
       currentRange,
+
       // event
       onPageClick
     }
@@ -94,6 +94,10 @@ export default {
       margin-right: 10px;
     }
     &:hover {
+      background-color: #EE5058;
+      color: white;
+    }
+    &.current {
       background-color: #EE5058;
       color: white;
     }

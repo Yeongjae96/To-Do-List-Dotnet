@@ -1,5 +1,6 @@
 <template>
   <input
+    v-if="isEdit"
     :type="type"
     :style="computedStyle"
     :autoComplete="autoComplete"
@@ -8,6 +9,14 @@
     :readonly="readonly"
     @input="$emit('update:modelValue', $event.target.value)"
   />
+  
+    <!-- @keyup.enter.stop="onEnter"
+    @focusout="onFocusout" -->
+  <span 
+    v-else
+  >
+    {{ modelValue }}
+  </span>
   <!-- @keypress.enter="$emit('enter', $event.target.value)" -->
 </template>
 
@@ -41,31 +50,42 @@ export default {
       type: Boolean,
       default: false,
     },
+    isEdit: {
+      type: Boolean,
+      default: true,
+    }
   },
   mounted() {
     if (this.default) this.$emit("update:modelValue", this.default);
   },
   data() {
-    return {};
+    return {
+      isEnterPress: false,
+    };
   },
 
   computed: {},
-  methods: {},
+  methods: {
+    onEnter(e) {
+      e.stopPropagation();
+      this.isEnterPress = true;
+      this.$emit('enter', this.modelValue, e);
+    },
+    onFocusout(e) {
+      e.stopPropagation();
+      if (this.isEnterPress) {
+        this.isEnterPress = false;
+        return;
+      }
+      this.$emit('focusout', this.modelValue, e);
+    }
+  },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 input {
-  outline: 0;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 1px solid;
-  border-color: rgba(190, 190, 190, 0.8);
-  padding-left: 5px;
-}
-
-input:focus {
-  border: 1px solid;
-  border-color: rgb(163, 147, 253);
+  &:focus {
+    outline: 0;
+  }
 }
 </style>

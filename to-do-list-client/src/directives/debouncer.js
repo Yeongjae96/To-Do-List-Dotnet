@@ -32,7 +32,6 @@ const enterDebounce = (el, binding) => {
   el.onkeypress = debouncer((e) => {
     if (e.keyCode !== 13) return;
     el.dispatchEvent(new Event("enter"));
-    console.log("enter가 dispatch됨");
   }, parseInt(binding.value) || 500);
 };
 

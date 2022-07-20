@@ -3,8 +3,18 @@
     <div class="todo__no">
       {{ id + 1 }}
     </div>
-    <div class="todo__subject" :class="{ completed }">
-      {{ title }}
+    <div class="todo__subject" :class="{ completed }" @dblclick="onDblClickSubject">
+      <!-- <input v-if="isEdit" :value="displayTitle" @enter="onEnterSubject" @focusout="onFocusoutSubject"/>
+      <span v-else>{{ displayTitle }}</span> -->
+      <y-input
+        :isEdit="isEdit"
+        height="20px"
+        borderStyle="0.75px solid #EE5058"
+        v-model="displayTitle"
+        @enter="onEnterSubject"
+        @focusout="onFocusoutSubject"
+      />
+
     </div>
     <div class="todo__completed" @click="onClick('completed')">
       <y-icon name="circle" :color="completedColor" />
@@ -37,10 +47,10 @@
 </template>
 
 <script>
+import { ref, toRefs, computed } from 'vue'
 export default {
   name: "todo-item",
   inheritAttrs: false,
-  components: {},
   props: {
     no: {
       type: Number,
@@ -66,6 +76,37 @@ export default {
       type: Boolean,
       default: () => false,
     },
+  },
+  setup(props, { emit }) {
+    // 변수    
+    const { title, no } = toRefs(props);
+    const isEdit = ref(false);
+
+    // initial Value
+    let displayTitle = ref(title.value);
+
+    // 로직
+    const changeSubject = (value, t) => {
+      isEdit.value = false;
+      emit('update', { no: no.value, title: value})
+    }
+
+    // changeMode Event
+    const onDblClickSubject = (e) => {
+      isEdit.value = true;
+    }
+
+    // changeSubject Event
+    const onEnterSubject = changeSubject;
+    const onFocusoutSubject = changeSubject;
+
+    return {
+      displayTitle,
+      isEdit,
+      onDblClickSubject,
+      onEnterSubject,
+      onFocusoutSubject,
+    }
   },
   data() {
     return {

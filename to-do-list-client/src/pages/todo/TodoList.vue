@@ -45,9 +45,9 @@
               v-for="(todo, idx) in todoList"
               :key="todo.no"
               :id="idx"
-              v-bind="todo"
+              :="todo"
               @delete="deleteTodo"
-              @update="openUpdateTodo"
+              @update="updateTodo"
               @click="onClick"
             />
           </template>
@@ -119,8 +119,7 @@ export default {
   },
   methods: {
     test(e) {
-      console.log(e);
-      this.searchParam.pageNo = Number(e.target.textContext);
+      this.searchParam.pageNo = Number(e.textContent);
       this.reloadTodoList();
     },
     async init() {
@@ -153,15 +152,12 @@ export default {
     },
     async reloadTodoList() {
       // 결과값을 보낼때 SearchParam을 보내야한다.
-      var response = await getTodoList(this.searchParam); 
-      console.debug(response)
+      const response = await getTodoList(this.searchParam); 
       this.todoList = response.list;
       this.pagination = response.pagination;
 
-      console.debug('pagination', this.pagination);
-      
       this.todoList.forEach(item => {
-        var format = this
+        const format = this
           .$moment(item.regDate)
           .format('YYYY-MM-DD HH:mm:ss');
         item.regDate = format;
@@ -177,7 +173,6 @@ export default {
       const eventMap = {
         completed: () => {
           const todo = this.selectTodoListById(no);
-          // todo.priority = (todo.priority + 1) % 3;
           todo.completed = !todo.completed;
           updateCompleted(todo).then(this.reloadTodoList);
         },
@@ -219,4 +214,25 @@ export default {
 .todo__list {
   flex: 1;
 }
+
+
+.todo__insert input{
+  outline: 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid;
+  border-color: rgba(190, 190, 190, 0.8);
+  padding: 5px 5px 5px 10px;
+  margin-left: 2px;
+  margin-top: 1px;
+  
+  &:focus {
+    border: 1px solid;
+    border-color: rgb(163, 147, 253);
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+}
+
 </style>

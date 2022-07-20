@@ -10,6 +10,7 @@
 <script>
 import { onMounted } from "vue";
 export default {
+  name: "todo-update",
   props: {
     param: {
       type: Object,
@@ -18,11 +19,8 @@ export default {
   },
   setup(props) {
     onMounted(() => {
-      console.log("is Mounted!!");
     });
-    console.log(props.param);
   },
-  name: "todo-update",
 };
 </script>
 
@@ -31,16 +29,5 @@ export default {
 div.flex.row {
   @include flexRow;
 }
-div.w-20 {
-  width: 20%;
-}
-div.w-40 {
-  width: 40%;
-}
-div.w-60 {
-  width: 60%;
-}
-div.w-80 {
-  width: 80%;
-}
 </style>
+

@@ -33,7 +33,7 @@ public class PaginationInfo
   public int MaxPageNum { get { return TotalCnt % PageSize == 0 ? TotalCnt / PageSize : TotalCnt / PageSize + 1; } }
 
   /// 이전 버튼 여부
-  public bool IsPrev { get { return PageNo != 1; } }
+  public bool IsPrev { get { return CurrentMinPageNum != 1; } }
 
   /// 다음 버튼 여부
   public bool IsNext { get { return CurrentMaxPageNum < MaxPageNum; } }
