@@ -3,12 +3,13 @@
     <div class="todo__no">
       {{ id + 1 }}
     </div>
-    <div class="todo__subject" :class="{ completed }" @dblclick="onDblClickSubject">
+    <div class="todo__subject" :class="{ completed }" @dblclick="onDblClickSubject" :title="displayTitle">
       <!-- <input v-if="isEdit" :value="displayTitle" @enter="onEnterSubject" @focusout="onFocusoutSubject"/>
       <span v-else>{{ displayTitle }}</span> -->
       <y-input
         :isEdit="isEdit"
-        height="20px"
+        width="99%"
+        height="30px"
         borderStyle="0.75px solid #EE5058"
         v-model="displayTitle"
         @enter="onEnterSubject"
@@ -22,7 +23,7 @@
     <div class="todo__tag" @click="onClick('tag')">
       <y-icon name="tags" fontSize="1.5rem" />
     </div>
-    <div class="todo__reg_date">
+    <div class="todo__reg_date" :title="regDate">
       {{ regDate }}
     </div>
     <div class="todo__buttons">
@@ -32,7 +33,7 @@
         backgroundColor="lightblue"
         text="수정"
         color="white"
-        @click="updateTodo"
+        @click="onClickUpdate"
       />
       <y-button
         width="50px"
@@ -88,7 +89,12 @@ export default {
     // 로직
     const changeSubject = (value, t) => {
       isEdit.value = false;
-      emit('update', { no: no.value, title: value})
+  
+      if (!value || value.trim() === '') {
+        displayTitle.value = title.value;
+      } else {
+        emit('update', { no: no.value, title: value})
+      }
     }
 
     // changeMode Event
@@ -100,23 +106,23 @@ export default {
     const onEnterSubject = changeSubject;
     const onFocusoutSubject = changeSubject;
 
+    const onClickUpdate = (e) => {
+      emit('detailUpdate', no.value);
+    }
+
     return {
       displayTitle,
       isEdit,
       onDblClickSubject,
       onEnterSubject,
       onFocusoutSubject,
+      onClickUpdate,
     }
   },
   data() {
-    return {
-      updateMode: [],
-    };
+    return {};
   },
   computed: {
-    isSubjectUpdateMode() {
-      return this.$_.includes(this.updateMode, "subject");
-    },
     completedColor() {
       return this.$const.TODO.completedColor[this.completed];
     },
@@ -129,9 +135,6 @@ export default {
     deleteTodo() {
       this.$emit("delete", this.no);
     },
-    updateTodo() {
-      this.$emit("update", this.no);
-    },
     onClick(tagName) {
       this.$emit("click", { tagName, no: this.no });
     },
@@ -141,6 +144,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/sass/_mixin.scss";
+
 
 .todo__item {
   @include flexRow;
@@ -153,6 +157,9 @@ export default {
   & > * {
     @include flexRow;
     margin-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   & .todo__subject {

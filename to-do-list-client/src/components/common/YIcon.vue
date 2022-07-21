@@ -41,6 +41,10 @@ export default {
       type: String,
       default: "",
     },
+    circle: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -49,13 +53,20 @@ export default {
   },
   computed: {
     computedStyle() {
-      return {
+      return Object.assign({
         fontSize: this.fontSize,
         cursor: this.pointer ? "pointer" : "",
         "--color": this.color,
         "--color-hover": this.hover || this.color,
-      };
+        
+      }, this.circle ? this.circleStyle : {});
     },
+    circleSylte() {
+      return {
+        borderRadius: '50%',
+        borderWidth: '1px',
+      }
+    }
   },
   mounted() {},
   methods: {},

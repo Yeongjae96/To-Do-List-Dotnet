@@ -64,6 +64,7 @@ export default {
     
       // 이벤트
     const onPageClick = (e) => {
+      if (/current/g.test(e.target.className)) return;
       emit('onClickPageNum', e.target);
     }
 
@@ -94,12 +95,17 @@ export default {
       margin-right: 10px;
     }
     &:hover {
-      background-color: #EE5058;
-      color: white;
+      background-color: #E6E7EC;
+      color: #333;
+      border-color: #E6E7EC
     }
     &.current {
       background-color: #EE5058;
       color: white;
+
+      &:hover {
+        border-color: #EE5058;
+      }
     }
   }
 

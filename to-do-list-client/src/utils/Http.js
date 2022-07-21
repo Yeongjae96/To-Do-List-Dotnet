@@ -32,10 +32,10 @@ function getUrl({ url, method, data, version = "v1" }) {
           apiStringIndex
         )}`
       : `/api/${version}${url.startsWith("/") ? url : "/" + url}`;
-  convertedUrl = convertedUrl.replace(/{(.*)}/g, (a, g1) => {
+  if (data.pathVariable) convertedUrl = convertedUrl.replace(/{(.*)}/g, (a, g1) => {
     return data[g1];
   });
-  return isGet(method) ? getUrlWithData(convertedUrl, data) : convertedUrl;
+  return isGet(method) && !data.pathVariable ? getUrlWithData(convertedUrl, data) : convertedUrl;
 }
 
 const loadingApi = (() => {

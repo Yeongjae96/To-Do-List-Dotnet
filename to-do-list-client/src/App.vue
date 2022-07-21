@@ -23,6 +23,10 @@ export default {
     const loading = computed(() => store.getters.loading);
     const popupList = computed(() => store.getters.popupList);
 
+    // const { loading, popupList } = computed(() => store.getters);
+
+    // console.log(loading, popupList);
+
     onMounted(() => {
       // setTimeout(() => {
       //   store.commit(

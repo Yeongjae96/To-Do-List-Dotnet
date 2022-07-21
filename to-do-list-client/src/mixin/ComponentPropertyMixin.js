@@ -54,5 +54,10 @@ export default {
         border: !this.disableBorder ? this.borderStyle : '0',
       }
     }
+  },
+  methods: {
+    getComputedStyle(target) {
+      return target.reduce((prev, target) => Object.assign(prev, this[target]), {})  
+    }
   }
 }

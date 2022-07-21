@@ -48,6 +48,7 @@
               :="todo"
               @delete="deleteTodo"
               @update="updateTodo"
+              @detailUpdate="openUpdateTodo"
               @click="onClick"
             />
           </template>
@@ -166,7 +167,7 @@ export default {
     openUpdateTodo(no) {
       this.modalOption.title = "할 일 수정";
       this.modalOption.path = "/todo/TodoUpdate";
-      this.modalOption.param.id = no;
+      this.modalOption.param.no = no;
       this.modalOption.visible = true;
     },
     onClick({ tagName, no }) {
@@ -192,7 +193,8 @@ export default {
 
 .right {
   position: absolute;
-  right: 10px;
+  right: 20px;
+  top: 2px;
 }
 
 .todo__wrapper {
@@ -203,11 +205,12 @@ export default {
 .todo__insert {
   @include flexRow;
   & > *:not(:last-child) {
-    margin-right: 20px;
+    margin-right: 10px;
   }
 }
 .todo__alert {
   @include flexRow(stretch, center);
+  position: relative;
   min-height: 30px;
 }
 
@@ -216,7 +219,7 @@ export default {
 }
 
 
-.todo__insert input{
+.todo__insert div {
   outline: 0;
   border-top: 0;
   border-left: 0;

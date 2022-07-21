@@ -6,6 +6,17 @@ export async function getTodoList(data) {
     data,
   });
 }
+export async function getTodo(no) {
+  return requestAndGetData({
+    url: "/todo/{no}",
+    method: "get",
+    data: {
+      no,
+      pathVariable: true,
+    },
+  });
+}
+
 export async function insertTodo(data) {
   return requestAndGetData({
     url: "/api/todo",
