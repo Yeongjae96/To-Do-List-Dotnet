@@ -39,7 +39,6 @@ export default {
 
     onMounted(async () => {
       todo.value = await getTodo(param.value.no);
-      console.log(todo);
     });
 
     return {

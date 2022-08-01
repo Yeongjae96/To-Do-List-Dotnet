@@ -15,9 +15,10 @@ public static class DatabaseExtension
 
     var pInfo = searchParam.Pagination;
     pInfo.TotalCnt = await dbSet.CountAsync();
-
+    
     var queryable = dbSet.AsQueryable();
 
+    // 대상 정렬
     if (searchParam.SortCondition != null && searchParam.SortCondition.Count > 0)
     {
       bool first = true;
@@ -28,16 +29,25 @@ public static class DatabaseExtension
       }
     }
 
+    // 대상 필터링
+    if (searchParam.FilterCondition != null && searchParam.SortCondition.Count > 0)
+    {
+      foreach (var filterCondition in searchParam.FilterCondition)
+      {
+        queryable = queryable.Where(filterCondition.PropertyName, filterCondition.Value, filterCondition.Operator);
+      }
+    }
+
+    // 페이징
     var result = new SearchList<T>()
     {
       List = await queryable
-      // .OrderBy("Completed", SortDirection.Ascending)
-      // .OrderBy("RegDate", SortDirection.Ascending, true)
-      .Skip(pInfo.SkipCount)
+      .Skip(pInfo.getSkipCount())
       .Take(pInfo.PageSize)
       .ToListAsync(),
       Pagination = pInfo
     };
+
     // if (searchParam)
     return result;
   }
@@ -57,6 +67,23 @@ public static class DatabaseExtension
       Expression.Quote(sort)
     );
 
-    return (IOrderedQueryable<T>)source.Provider.CreateQuery<T>(call);
+ // ESSO로그인 시 웹메일, 
+    return (IOrderedQueryable<T>)source.Provider.CreateQuery<T>(call); 
+  }
+
+  public static IQueryable<T> Where<T> (this IQueryable<T> source, string propertyName, string value, string op) {
+    var param = Expression.Parameter(typeof (T), value);
+    var property = Expression.PropertyOrField(param, propertyName);
+    var lambda = Expression.Lambda(property, param);
+
+    var call = Expression.Call(
+      typeof (Queryable), 
+      "Where",
+      new[] { typeof (T), property.Type },
+      source.Expression,
+      Expression.Quote(lambda)
+    );
+
+    return (IQueryable<T>)source.Provider.CreateQuery<T>(call);
   }
 }

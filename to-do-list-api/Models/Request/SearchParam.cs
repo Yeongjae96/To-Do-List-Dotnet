@@ -12,8 +12,11 @@ public class SearchParam<T> : IPaginable
   public int PageNumPerOnce { get; set; }
   public string SearchKeyword { get; set; }
 
-  [FromQuery(Name="sortCondition")]
+  [FromQuery(Name = "sortCondition")]
   public SortingList SortCondition { get; set; }
+
+  [FromQuery(Name = "filterCondition")]
+  public FilterList FilterCondition { get; set; }
 
   public T Data { get; set; }
 

@@ -48,6 +48,7 @@ const loadingApi = (() => {
       let result = null;
       try {
         loadingApi.apiCallMap.set(apiID, false);
+        store.commit("popup/MUT_LOADING", true);
         result = await func.call(func, params);
       } catch (e) {
         console.error(e);
@@ -66,7 +67,6 @@ const loadingApi = (() => {
 })();
 
 export function request(param) {
-  store.commit("popup/MUT_LOADING", true);
   return axios({
     url: getUrl(param),
     method: param.method,

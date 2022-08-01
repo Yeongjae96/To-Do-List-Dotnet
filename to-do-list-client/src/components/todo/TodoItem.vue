@@ -90,7 +90,7 @@ export default {
     const changeSubject = (value, t) => {
       isEdit.value = false;
   
-      if (!value || value.trim() === '') {
+      if (!value || value.trim() === '' || displayTitle.value === title.value) {
         displayTitle.value = title.value;
       } else {
         emit('update', { no: no.value, title: value})

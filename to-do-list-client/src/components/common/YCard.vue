@@ -62,7 +62,7 @@ export default {
       // bottom: 0;
       position: relative;
       transform: translateY(-100%);
-      margin-top: 20px;
+      margin-top: 30px;
       height: 20px;
     }
   }

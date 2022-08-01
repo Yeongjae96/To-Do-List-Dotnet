@@ -1,7 +1,11 @@
 <template>
   <div class="flex row center pagination">
     <template v-if="isPrev">
-      &lt;
+      <div class="flex row center page-btn"
+        @click="onClickPrev"
+      >
+        &lt;
+      </div>
     </template>
     <template v-if="pageNo > 0">
       <div 
@@ -9,18 +13,23 @@
         :key="'pagination__' + item"
         class="flex row center page-btn"
         :class="{ current: pageNo === item }"
-        @click="onPageClick"
+        @click="onClickPage"
       >
         {{ item }}
       </div>
     </template>
     <template v-if="isNext">
-      &gt;
+      <div 
+        class="flex row center page-btn"
+        @click="onClickNext"
+      >
+        &gt;
+      </div>
     </template>
   </div>  
 </template>
 <script>
-import { computed, toRefs } from 'vue';
+import { computed, ref, toRefs, watch } from 'vue';
 
 export default {
   name: 'y-pagination',
@@ -42,6 +51,10 @@ export default {
       type: Number,
       default: 0,
     },
+    pageSize: {
+      type: Number,
+      default: 0,
+    },
     currentMinPageNum: {
       type: Number,
       default: 1,
@@ -53,31 +66,61 @@ export default {
     totalCnt: {
       type: Number,
       default: 0,
-    }
+    },
   },
   setup(props, { emit }) { // toRefs -> 반응형을 잃어버리지 않으면서 값을 받아오는것
-    const { pageNo, isPrev, isNext, currentMaxPageNum, currentMinPageNum, totalCnt } = toRefs(props);
+    const { isPrev, isNext, pageSize, currentMaxPageNum, currentMinPageNum, totalCnt } = toRefs(props);
     
+    // localValue
+    const localPageNo = ref(props.pageNo);
+
     // PageNum
     const initialPageNumbers = (item, idx) => currentMinPageNum.value + idx;
     const currentRange = computed(() => Array.from({ length: (currentMaxPageNum.value - currentMinPageNum.value + 1) }, initialPageNumbers));
     
+    // watch
+    watch(pageSize, () => {
+      console.log('before', localPageNo.value);
+      localPageNo.value = localPageNo.value * props.pageSize > props.totalCnt ? Math.ceil(totalCnt.value / props.pageSize) : localPageNo.value;
+      console.log('after', localPageNo.value);
+      emitClickPageNum('onClickPageNum', localPageNo.value);
+    });
+
+    // 이벤트
+    const emitClickPageNum = () => {
+      // emit하기전에 pageNo이 maxPageNum을 넘기면 보정해준다.
+      
+      emit('onClickPageNum', localPageNo.value)
+    }; 
+
       // 이벤트
-    const onPageClick = (e) => {
+    const onClickPage = (e) => {
       if (/current/g.test(e.target.className)) return;
-      emit('onClickPageNum', e.target);
+      localPageNo.value = Number(e.target.textContent);
+      emitClickPageNum();
+    }
+
+    const onClickPrev = (e) => {
+      localPageNo.value = currentMinPageNum.value - 1;
+      emitClickPageNum();
+    }
+
+    const onClickNext = (e) => {
+      localPageNo.value = currentMaxPageNum.value + 1;
+      emitClickPageNum();
     }
 
     return {
       // state
       isPrev,
       isNext,
-      pageNo,
       totalCnt,
       currentRange,
 
       // event
-      onPageClick
+      onClickPage,
+      onClickPrev,
+      onClickNext,
     }
   }, 
 }

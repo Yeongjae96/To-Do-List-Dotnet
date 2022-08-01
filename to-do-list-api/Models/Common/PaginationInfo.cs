@@ -18,7 +18,12 @@ public class PaginationInfo
   }
 
   /// 현재 페이지 번호
-  public int PageNo { get; set; }
+  private int _pageNo;
+  public int PageNo { get {
+    return _pageNo;
+  } set {
+    _pageNo = value; 
+  } }
 
   /// 한번에 보일 Pagination 개수
   public int PageNumPerOnce { get; set; } = 10;
@@ -44,7 +49,12 @@ public class PaginationInfo
   /// Pagination 범위 (최대)
   public int CurrentMaxPageNum { get { return CurrentMinPageNum * PageNumPerOnce > MaxPageNum ? MaxPageNum : CurrentMinPageNum * PageNumPerOnce; }}
 
-  /// Skip Count
-  [JsonIgnore]
-  public int SkipCount { get { return (PageNo - 1) * PageSize; }}
+  public int getSkipCount() {
+    var currentPageNo = (PageNo > MaxPageNum ? CurrentMaxPageNum : PageNo);
+    var result = (currentPageNo - 1) * PageSize;
+
+    PageNo = currentPageNo;
+
+    return result;
+  }
 }

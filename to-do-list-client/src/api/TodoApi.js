@@ -1,4 +1,4 @@
-import { requestAndGetData } from "@/utils/Http";
+import { request, requestAndGetData } from "@/utils/Http";
 export async function getTodoList(data) {
   return requestAndGetData({
     url: "/todo",
@@ -18,14 +18,14 @@ export async function getTodo(no) {
 }
 
 export async function insertTodo(data) {
-  return requestAndGetData({
+  return request({
     url: "/api/todo",
     method: "post",
     data,
   });
 }
 export async function updateTodo(data) {
-  return requestAndGetData({
+  return request({
     url: "/todo",
     method: "put",
     data,
@@ -33,7 +33,7 @@ export async function updateTodo(data) {
 }
 
 export async function deleteTodo(data) {
-  return requestAndGetData({
+  return request({
     url: "/todo/{no}",
     method: "delete",
     data,
@@ -42,7 +42,7 @@ export async function deleteTodo(data) {
 
 
 export async function updateCompleted(data) {
-  return requestAndGetData({
+  return request({
     url: "/todo/completed",
     method: "put",
     data,

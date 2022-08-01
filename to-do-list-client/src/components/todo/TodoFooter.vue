@@ -1,24 +1,20 @@
 <template>
   <div>
-    <y-pagination @onClickPageNum="onClickPageNum" :="pagination"/>
+    <y-pagination @onClickPageNum="onChangePageSize" :="pagination"/>
   </div>
 </template>
 <script>
-import { toRefs } from 'vue' 
+import { TODO } from '@/utils/Const'
+import { inject, toRefs } from 'vue'
+import { onChangePageSize } from '@/composable/todo/todoEvent'
 export default {
-  props: {
-    pagination: {
-      type: Object,
-      default: () => { return {}; },
-    }
-  },
+  props: {},
   setup(props, { emit }) {
-    const { pagination } = toRefs(props);
 
-    const onClickPageNum = (e) => emit('onClickPageNum', e);
+    const pagination = inject(TODO.provideKey.pagination);
 
     return {
-      onClickPageNum,
+      onChangePageSize,
       pagination
     }
   }
