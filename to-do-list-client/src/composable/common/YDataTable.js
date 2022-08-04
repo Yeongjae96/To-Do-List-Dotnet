@@ -14,9 +14,10 @@ export function calcTextAlign(align) {
   return alignMap[align] || "left";
 }
 
-export function emit({ eventType, propertyName, value }) {
+export function emit(obj) {
+  console.log(getCurrentInstance());
   const { emit } = getCurrentInstance();
-  emit(`${eventType}:${propertyName}`, value);
+  emit("dtEvent", obj);
 }
 
 export function resizeItem({ headerInfo, item }) {

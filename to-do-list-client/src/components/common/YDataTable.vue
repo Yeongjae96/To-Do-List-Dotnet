@@ -91,7 +91,7 @@
 </template>
 <script>
 
-import { computed, ref, toRefs, defineAsyncComponent } from 'vue'
+import { computed, ref, shallowRef, toRefs, defineAsyncComponent } from 'vue'
 import { useStore } from 'vuex'
 import { calcTextAlign } from '@/composable/common/YDataTable'
 export default {
@@ -129,7 +129,7 @@ export default {
   setup(props, { emit }) {
     const { header, data, template, no, pageNo, pageSize } = toRefs(props);
 
-    const customComponent = ref(null);
+    const customComponent = shallowRef(null);
     const localHeader = ref(null);
 
     // custom 컴포넌트가 있다면 로딩시켜놓고 async로 loading
@@ -179,6 +179,7 @@ export default {
 
     // customTemplate Event
     const customComponentEventHandler = ({ type, propertyName, value }) => {
+      console.log('customComponentEventHandler', `${type}:${propertyName}`, value);
       emit(`${type}:${propertyName}`, value);
     }
 

@@ -129,9 +129,9 @@ export default {
     }
     /* YDataTable용 Props */
   },
-  setup(props, { emit, attrs }) {
+  setup(props) {
     // 변수    
-    const { title, completed, dtHeader } = toRefs(props);
+    const { title, completed, dtHeader, no } = toRefs(props);
     const isEdit = ref(false);
 
     // initial Value
@@ -171,9 +171,18 @@ export default {
     }
 
     const onClick = (tagName) => {
+      console.log('test', tagName);
+      emit({
+        type: 'click',
+        propertyName: tagName,
+        value: {
+          no: no.value,
+          title: title.value,
+        }
+      })
       // emit('click', { tagName, no: no.value })
     }
-    console.log(attrs);
+
     // Width 보정
     onMounted(() => {
       resizeItem({ headerInfo: dtHeader.value, item: todoItem, });
