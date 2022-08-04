@@ -35,11 +35,12 @@ dynamicRoutes
   .keys()
   .filter((item) => !item.includes("/error"))
   .forEach((filePath) => {
-    const moduleInfo =
-      dynamicRoutes(filePath).default || dynamicRoutes(filePath);
+    const moduleInfo = dynamicRoutes(filePath).default || dynamicRoutes(filePath);
 
-    let fileName = filePath.replace("./", "");
-    const routePathProperty = fileName.substring(0, fileName.indexOf(".vue"));
+    let fileName = filePath.replace("./", "").replace("/index.vue", "");
+    const vueIdx = fileName.indexOf(".vue");
+    const routePathProperty = vueIdx > -1 ? fileName.substring(0, vueIdx) : fileName;
+
     const routeInfo = {
       name: routePathProperty,
       path: moduleInfo.alternativeUrl || routePathProperty,

@@ -2,8 +2,7 @@
   <!-- <y-header /> -->
   <section>
     <y-left-aside />
-      <y-content>
-      </y-content>
+      <y-content />
   </section>
 </template>
 <script>

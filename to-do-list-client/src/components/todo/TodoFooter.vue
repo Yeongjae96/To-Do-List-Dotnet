@@ -1,21 +1,31 @@
 <template>
   <div>
-    <y-pagination @onClickPageNum="onChangePageSize" :="pagination"/>
+    <y-pagination @onClickPageNum="onChangePageSize" :="pagination" :pageSize="searchParam.pageSize"/>
   </div>
 </template>
 <script>
 import { TODO } from '@/utils/Const'
-import { inject, toRefs } from 'vue'
-import { onChangePageSize } from '@/composable/todo/todoEvent'
+import { computed } from 'vue'
+import { useStore } from 'vuex' 
+import { reloadTodoList } from '@/composable/todo/todoEvent'
 export default {
   props: {},
   setup(props, { emit }) {
 
-    const pagination = inject(TODO.provideKey.pagination);
+    const store = useStore();
+    const searchParam = computed(() => store.state.todoStore.searchParam);
+
+    const onChangePageSize = ({ pageNo }) => {
+      // searchParam.value.pageNo = pageNo;
+      // reloadTodoList({ searchParam, pagination, todoList })
+      store.commit('todoStore/MUT_SEARCH_PARAM_PAGE_NO', pageNo);
+      store.dispatch('todoStore/ACT_GET_TODO_LIST');
+    }
 
     return {
       onChangePageSize,
-      pagination
+      searchParam,
+      pagination: computed(() => store.state.todoStore.pagination),
     }
   }
 }

@@ -1,5 +1,4 @@
-import moment from 'moment';
-
+import moment from "moment";
 
 /*
   isAutoRegistConfig: false가 되면, this.$Util이름 으로 자동등록을 하지 않는다.
@@ -7,11 +6,11 @@ import moment from 'moment';
 */
 
 const DateUtils = {
-  isAutoRegist: true,  
+  isAutoRegist: true,
   getToday,
-}
+};
 
-export function getToday(format = 'yyyy-MM-DD') {
+export function getToday(format = "yyyy-MM-DD") {
   return moment().format(format);
 }
 

@@ -1,11 +1,6 @@
 <template>
-  <li class="todo__item">
-    <div class="todo__no">
-      {{ id + 1 }}
-    </div>
+  <li class="todo__item" ref="todoItem">
     <div class="todo__subject" :class="{ completed }" @dblclick="onDblClickSubject" :title="displayTitle">
-      <!-- <input v-if="isEdit" :value="displayTitle" @enter="onEnterSubject" @focusout="onFocusoutSubject"/>
-      <span v-else>{{ displayTitle }}</span> -->
       <y-input
         :isEdit="isEdit"
         width="99%"
@@ -48,10 +43,56 @@
 </template>
 
 <script>
-import { ref, toRefs, computed } from 'vue'
+import { ref, toRefs, onMounted, watch, computed } from 'vue'
+import { resizeItem } from '@/composable/common/YDataTable'
+import { TODO } from '../../utils/Const';
+import { emit } from '@/composable/common/YDataTable'
 export default {
   name: "todo-item",
   inheritAttrs: false,
+  // dtHeader는 yDataTable의 template에 해당하는 부분에서만 사용한다. (우선순위일뿐 yDataTable 호출부분에서 데이터로 넘길수 있으므로 테스트용도로 구현함.)
+  dtHeader: [ 
+    {
+      type: "text",
+      key: "title",
+      text: "제목",
+      width: "*",
+    },
+    {
+      // type: "icon",
+      key: "completed",
+      text: "완료여부",
+      width: "100px",
+      // extensionProperties: {
+      //   name: "circle",
+      // },
+      // compute: {
+      //   color: (data) => TODO.completedColor[data.completed],
+      // },
+      align: 'center'
+    },
+    {
+      // type: "custom",
+      key: "tag",
+      text: "태그",
+      width: "100px",
+      align: 'center'
+    },
+    {
+      // type: "date",
+      key: "regDate",
+      text: "작성일",
+      width: "250px",
+      align: 'center'
+      // editable: false,
+    },
+    {
+      // type: "custom",
+      text: "추가기능",
+      width: "150px",
+      align: 'center'
+    },
+  ],
   props: {
     no: {
       type: Number,
@@ -77,14 +118,30 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    /* YDataTable용 Props */
+    isDataTable: {
+      type: Boolean,
+      default: false,
+    },
+    dtHeader: {
+      type: Array,
+      default: () => [],
+    }
+    /* YDataTable용 Props */
   },
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     // 변수    
-    const { title, no } = toRefs(props);
+    const { title, completed, dtHeader } = toRefs(props);
     const isEdit = ref(false);
 
     // initial Value
-    let displayTitle = ref(title.value);
+    let displayTitle = ref(props.title);
+    
+    const todoItem = ref(null);
+
+    watch(title, () => {
+      displayTitle.value = title.value;
+    })
 
     // 로직
     const changeSubject = (value, t) => {
@@ -93,7 +150,7 @@ export default {
       if (!value || value.trim() === '' || displayTitle.value === title.value) {
         displayTitle.value = title.value;
       } else {
-        emit('update', { no: no.value, title: value})
+        // emit('update', { no: no.value, title: value})
       }
     }
 
@@ -102,42 +159,37 @@ export default {
       isEdit.value = true;
     }
 
+    // 색깔
+    const completedColor = computed(() => TODO.completedColor[completed.value])
+
     // changeSubject Event
     const onEnterSubject = changeSubject;
     const onFocusoutSubject = changeSubject;
 
     const onClickUpdate = (e) => {
-      emit('detailUpdate', no.value);
+      // emit('detailUpdate', no.value);
     }
+
+    const onClick = (tagName) => {
+      // emit('click', { tagName, no: no.value })
+    }
+    console.log(attrs);
+    // Width 보정
+    onMounted(() => {
+      resizeItem({ headerInfo: dtHeader.value, item: todoItem, });
+    });
 
     return {
       displayTitle,
-      isEdit,
+      isEdit, 
+      todoItem,
+      completedColor,
       onDblClickSubject,
       onEnterSubject,
       onFocusoutSubject,
       onClickUpdate,
+      onClick
     }
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    completedColor() {
-      return this.$const.TODO.completedColor[this.completed];
-    },
-    subjectStyle() {
-      return this.completed;
-    },
-  },
-  created() {},
-  methods: {
-    deleteTodo() {
-      this.$emit("delete", this.no);
-    },
-    onClick(tagName) {
-      this.$emit("click", { tagName, no: this.no });
-    },
   },
 };
 </script>
@@ -156,16 +208,14 @@ export default {
 
   & > * {
     @include flexRow;
-    margin-right: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    // border-bottom: 1px solid black;
   }
 
   & .todo__subject {
     width: 40%;
-    padding-left: 20px;
-    flex: 1;
   }
 
   & .todo__completed {

@@ -1,4 +1,5 @@
-const backendConfig = require('./config');
+const path = require("path");
+const backendConfig = require("./config");
 
 module.exports = {
   devServer: {
@@ -13,5 +14,10 @@ module.exports = {
   },
   configureWebpack: {
     devtool: "source-map",
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
+    },
   },
 };

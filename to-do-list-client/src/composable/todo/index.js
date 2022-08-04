@@ -5,44 +5,6 @@ import { getHeaderData } from "@/composable/common/YDataTable";
 
 export function initTodoListPageData() {
   // pagination
-  const pagination = ref(null);
-  provide(TODO.provideKey.pagination, pagination);
-
-  // searchParam
-  const searchParam = ref({
-    pageNo: 1,
-    pageSize: 10,
-    pageNumPerOnce: 10,
-    searchKeyword: "",
-    sortCondition: [
-      { propertyName: "Completed", direction: 0 },
-      { propertyName: "RegDate", direction: 0 },
-    ],
-  });
-  watch(
-    () => searchParam.value.pageSize,
-    () => {
-      if (!pagination.value) {
-        console.debug(pagination);
-        return;
-      }
-      pagination.value.pageSize = searchParam.value.pageSize;
-    }
-  );
-  provide(TODO.provideKey.searchParam, searchParam);
-
-  // modalOption
-  const modalOption = ref({
-    visible: false,
-    param: {},
-    width: "90%",
-    height: "90%",
-    title: "",
-    path: "",
-  });
-  const pageSizeOptions = ref([1, 5, 10, 15]);
-  const inputValue = ref("");
-  const todoList = ref([]);
 
   return {
     searchParam,

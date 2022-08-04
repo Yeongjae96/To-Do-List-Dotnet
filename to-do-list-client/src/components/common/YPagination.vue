@@ -73,24 +73,25 @@ export default {
     
     // localValue
     const localPageNo = ref(props.pageNo);
+    const localPageSize = ref(pageSize.value);
 
     // PageNum
     const initialPageNumbers = (item, idx) => currentMinPageNum.value + idx;
     const currentRange = computed(() => Array.from({ length: (currentMaxPageNum.value - currentMinPageNum.value + 1) }, initialPageNumbers));
     
+    const computedPageNo = computed(() => Number(localPageNo.value) * props.pageSize > props.totalCnt ? Math.ceil(totalCnt.value / props.pageSize) : localPageNo.value);
+
     // watch
     watch(pageSize, () => {
-      console.log('before', localPageNo.value);
-      localPageNo.value = localPageNo.value * props.pageSize > props.totalCnt ? Math.ceil(totalCnt.value / props.pageSize) : localPageNo.value;
-      console.log('after', localPageNo.value);
-      emitClickPageNum('onClickPageNum', localPageNo.value);
+      if (localPageSize.value === pageSize.value) { console.log('중복 ㅋ', localPageSize.value, pageSize.value); return; }
+      localPageSize.value = pageSize.value; 
+      emitClickPageNum();
     });
 
     // 이벤트
     const emitClickPageNum = () => {
       // emit하기전에 pageNo이 maxPageNum을 넘기면 보정해준다.
-      
-      emit('onClickPageNum', localPageNo.value)
+      emit('onClickPageNum', { pageNo: computedPageNo.value })
     }; 
 
       // 이벤트

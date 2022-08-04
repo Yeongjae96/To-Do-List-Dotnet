@@ -32,6 +32,7 @@ export default {
         { title: 'Home', url: '/Home', icon: 'user-secret', imageSize: 'sm'},
         { title: 'About', url: '/About', icon: 'user-secret', imageSize: 'sm'},
         { title: 'TodoList', url: '/todo/TodoList', icon: 'user-secret', imageSize: 'sm'},
+        { title: 'BoardList', url: '/board', icon: 'user-secret', imageSize: 'sm'},
       ];
     },
     async init() {

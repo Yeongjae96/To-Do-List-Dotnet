@@ -40,7 +40,6 @@ export async function deleteTodo(data) {
   });
 }
 
-
 export async function updateCompleted(data) {
   return request({
     url: "/todo/completed",

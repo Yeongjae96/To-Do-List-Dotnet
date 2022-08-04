@@ -31,11 +31,15 @@ export default {
     modelValue: {
       type: [String, Number],
       default: () =>  '',
+    },
+    type: {
+      type: Function,
+      default: () => String,
     }
   },
   setup(props, { emit }) {
     
-    const { data, modelValue } = toRefs(props)
+    const { data, modelValue, type } = toRefs(props)
     const localData = ref(data.value);
 
     // text, value가 없는 값이라면 text value로 만들어준다.
@@ -50,12 +54,21 @@ export default {
       return result;
     });
 
-    // change
-    const onChange = (e) => {
-      emit('update:modelValue', e.target.value);
-      emit('change', e.target.value, e);
+    const convertType = (value) => {
+      if (type.value == Object) return;
+      try {
+        return type.value(value);
+      } catch(e) {
+        console.error(e);
+      }
     }
 
+    // change
+    const onChange = (e) => {
+      const emitValue = convertType(e.target.value)
+      emit('update:modelValue', emitValue);
+      emit('change', emitValue, e);
+    }
 
     return {
       localData,
