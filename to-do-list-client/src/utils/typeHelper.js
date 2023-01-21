@@ -1,7 +1,6 @@
 class TypeHelper {
 
   check(data) {
-    
     if (this.isNull(data)) return 'null';
     else if (this.isUndefined(data)) return 'undefined';
     else if (this.isArray(data)) return 'array';
@@ -38,6 +37,14 @@ class TypeHelper {
 
   isUndefined(data) {
     return data === undefined;
+  }
+
+  AddNumber(d1, d2) {
+    return +d1 + +d2;
+  }
+
+  AddString(d1, d2) {
+    return "" + d1 + d2;
   }
 }
 

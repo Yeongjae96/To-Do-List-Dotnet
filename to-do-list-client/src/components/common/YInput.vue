@@ -6,12 +6,14 @@
   >
     <input
       ref="internalInput"
+      :class="className"
       :type="type"
       :style="inputStyle"
       :autoComplete="autoComplete"
       :value="modelValue"
       :maxLength="maxLength"
       :readonly="readonly"
+      @change.stop="onChange"
       @input="$emit('update:modelValue', $event.target.value)"
       @focusout.stop="onFocusout"
       @keyup.enter.stop="onEnter"
@@ -42,18 +44,22 @@ import ComponentPropertyMixin from "@/mixin/ComponentPropertyMixin";
 export default {
   name: "y-input",
   mixins: [ComponentPropertyMixin],
-  emits: ['focusout', 'enter', 'update:modelValue'],
+  emits: ['focusout', 'enter', 'update:modelValue', 'change'],
   props: {
     type: {
       type: String,
       default: "text",
+    },
+    className: {
+      type: String,
+      default: () => '',
     },
     autoComplete: {
       type: String,
       default: "입력해주세요",
     },
     modelValue: {
-      type: String,
+      type: [String, Number, Boolean],
       default: "",
     },
     default: {
@@ -98,6 +104,9 @@ export default {
     }
   },
   methods: {
+    onChange(e) {
+      this.$emit('change', this.modelValue, e);
+    },
     onEnter(e) {
       // e.stopPropagation();
       this.isEnterPress = true;

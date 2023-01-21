@@ -16,15 +16,6 @@ const routes = [
     redirect: "/home",
     children: [
       { name: "Home", path: "home", component: () => import("@/pages/Home") },
-      // { name: 'About', path: 'about', component: () => import('@/pages/About') },
-      // {
-      //   name: 'todo',
-      //   path: 'todo',
-      //   children: [
-      //     { path: '/todo', redirect: 'list'},
-      //     { name: 'todo-list', path: 'list', component: () => import('@/pages/todo/TodoList') },
-      //   ]
-      // }
     ],
   },
   { path: "/error/404", component: () => import("@/pages/error/404") },

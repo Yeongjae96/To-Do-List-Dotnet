@@ -5,6 +5,7 @@
   flex-direction: row;
   justify-content: $horizontal-align;
   align-items: $vertical-align;
+  // overflow-y: auto;
 }
 
 @mixin flexColumn($horizontal-align: stretch, $vertical-align: center) {

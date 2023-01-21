@@ -10,9 +10,8 @@
 export default {
   name: 'board-list',
   setup() {
-    
     const header = [
-      { text: '제목', width: '200px', key: 'title', align: 'center' },
+      { text: '제목', width: '100px', key: 'title', align: 'center' },
       { text: '제목2', width: '300px', key: 'title2', align: 'right' },
       { text: '제목3', key: 'title3', align: 'right' },
       { text: '제목4', key: 'title4', align: 'right' },

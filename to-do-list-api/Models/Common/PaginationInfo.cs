@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using TodoList.Models.Request;
 
 namespace TodoList.Models.Common;
 
@@ -12,6 +13,18 @@ public class PaginationInfo
       TotalCnt = totalCnt,
       PageSize = pageSize,
       PageNumPerOnce = pageNumPerOnce
+    };
+
+    return result;
+  }
+
+  public static PaginationInfo GetPagination<T>(SearchParam<T> searchParam)
+  {
+    var result = new PaginationInfo()
+    {
+      PageNo = searchParam.PageNo,
+      PageSize = searchParam.PageSize,
+      PageNumPerOnce = searchParam.PageNumPerOnce
     };
 
     return result;

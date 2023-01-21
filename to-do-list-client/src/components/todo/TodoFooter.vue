@@ -16,8 +16,6 @@ export default {
     const searchParam = computed(() => store.state.todoStore.searchParam);
 
     const onChangePageSize = ({ pageNo }) => {
-      // searchParam.value.pageNo = pageNo;
-      // reloadTodoList({ searchParam, pagination, todoList })
       store.commit('todoStore/MUT_SEARCH_PARAM_PAGE_NO', pageNo);
       store.dispatch('todoStore/ACT_GET_TODO_LIST');
     }

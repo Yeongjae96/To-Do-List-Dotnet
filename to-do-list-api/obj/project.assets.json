@@ -6926,26 +6926,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SKMG\\.nuget\\packages\\": {}
+    "/Users/kimyeong/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\TodoList.csproj",
+      "projectUniqueName": "/Users/kimyeong/Dev/TodoListByDotNet/to-do-list-api/TodoList.csproj",
       "projectName": "TodoList",
-      "projectPath": "c:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\TodoList.csproj",
-      "packagesPath": "C:\\Users\\SKMG\\.nuget\\packages\\",
-      "outputPath": "c:\\Yeong\\git\\Private\\To-Do-List-Dotnet\\to-do-list-api\\obj\\",
+      "projectPath": "/Users/kimyeong/Dev/TodoListByDotNet/to-do-list-api/TodoList.csproj",
+      "packagesPath": "/Users/kimyeong/.nuget/packages/",
+      "outputPath": "/Users/kimyeong/Dev/TodoListByDotNet/to-do-list-api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\SKMG\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/kimyeong/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -7027,7 +7025,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.200/RuntimeIdentifierGraph.json"
       }
     }
   }

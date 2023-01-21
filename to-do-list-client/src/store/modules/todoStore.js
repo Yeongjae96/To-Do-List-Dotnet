@@ -1,19 +1,24 @@
 import { generateMutationNames } from "../store-types";
 import { getTodoList } from "@/api/TodoApi";
+import _ from 'lodash';
 import moment from "moment";
 import { getToday } from "@/utils/Date";
-
-const state = {
-  todoList: [],
-  searchParam: {
+const getDefaultSearchParam = () => {
+  return {
     pageNo: 1,
     pageSize: 10,
     pageNumPerOnce: 10,
     sortCondition: [
-      { propertyName: "Completed", direction: 0 },
-      { propertyName: "RegDate", direction: 0 },
+      { propertyName: "completed", direction: 0 },
+      { propertyName: "regDate", direction: 0 },
+      { propertyName: "completedDate", direction: 1 },
     ],
-  },
+  }
+}
+
+const state = {
+  todoList: [],
+  searchParam: getDefaultSearchParam(),
   pagination: null,
 };
 
@@ -29,12 +34,17 @@ const actions = {
     response.list.forEach((item) => {
       // 등록일
       item.regDate = moment(item.regDate).format(todoRegDateFormat(item.regDate));
+      item.completedDate = item.completedDate ? moment(item.completedDate).format(todoRegDateFormat(item.completedDate)) : '';
     });
 
     commit("MUT_TODO_LIST", response.list);
     commit("MUT_PAGINATION", response.pagination);
   },
 };
+
+const getters = {
+  // get 
+}
 
 const mutations = {
   MUT_PAGINATION(state, payload) {
@@ -49,12 +59,27 @@ const mutations = {
     }
     state.searchParam.sortCondition.push(payload);
   },
+  MUT_CHANGE_SORT(state, payload) {
+    if (!(state.searchParam && state.searchParam.sortCondition)) return;
+    
+    const sortCondition = state.searchParam.sortCondition;
+    const sortConditionIdx = _.findIndex(sortCondition, (sort) => sort.propertyName === payload.propertyName);
+    if (sortConditionIdx > -1) {
+      sortCondition.splice(sortConditionIdx, 1);
+    }
+    sortCondition.unshift(payload);
+
+    
+  },
   MUT_TODO_LIST(state, payload) {
     state.todoList = payload;
   },
   MUT_SEARCH_PARAM_PAGE_NO(state, payload) {
     state.searchParam.pageNo = Number(payload);
   },
+  MUT_CLEAR_SEARCH_PARAM(state) {
+    state.searchParam = getDefaultSearchParam();
+  }
 };
 
 export const mapMutations = generateMutationNames(mutations);
@@ -65,4 +90,5 @@ export default {
   state,
   mutations,
   actions,
+  getters,
 };

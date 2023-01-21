@@ -1,6 +1,6 @@
 <template>
   <div id="content">
-    <div id="content-header">
+    <div id="content-header" class="d-none">
       <p class="content-header__text">
         Today ({{ currentDayString }})
       </p>

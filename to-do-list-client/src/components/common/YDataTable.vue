@@ -1,12 +1,5 @@
 <template>
-  <div :id="id">
-    <!-- <div data-role="colgroup">
-      <col
-        v-for="(h, hIdx) in header"
-        :key="'__yDataTable__col__' + hIdx"
-        :style="{ width: h.width }"
-      />
-    </div> -->
+  <div :id="id" class="y-data-table-div">
     <div data-role="thead">
       <div v-if="no"
         data-role="th"
@@ -18,6 +11,8 @@
         v-for="(h, hIdx) in header"
         :key="'__yDataTable__th__' + hIdx"
         :style="calcThStyle(h)"
+        @click="headerEventHandler"
+        :data-key="h.sortable ? h.key : null"
       >
         <div data-role="td">
           {{ h.text }}
@@ -42,6 +37,7 @@
         <!-- 특정 컴포넌트를 사용하는 경우 -->
         <div data-role="no" 
           v-if="no"
+          :style="{ minWidth: '60px'}"
         >
           {{ paginationNo + dIdx + 1 }}
         </div>
@@ -51,7 +47,8 @@
         >
           <component 
             :is="customComponent" 
-            :=d 
+            :=d
+            :totalList="data"
             :dtHeader="header"
             :isDataTable="true"
             @dtEvent="customComponentEventHandler"
@@ -124,7 +121,7 @@ export default {
     pageSize: {
       type: Number,
       default: 0,
-    }
+    },
   },
   setup(props, { emit }) {
     const { header, data, template, no, pageNo, pageSize } = toRefs(props);
@@ -146,7 +143,6 @@ export default {
       localHeader.value = header.value;
     }
     // 동적 컴포넌트 불러오기
-
     const convertComputedProperties = (computedProperties, data) => {
       return Object.keys(computedProperties).reduce((prev, key) => prev[key] = computed(() => computedProperties[key](data)), {});
     } 
@@ -173,14 +169,18 @@ export default {
     }
 
     const onClickTd = (hd, d) => {
-      console.log('emit, ', `tdClick:${hd.key}`);
       emit(`tdClick:${hd.key}`, d)
     }
 
     // customTemplate Event
     const customComponentEventHandler = ({ type, propertyName, value }) => {
-      console.log('customComponentEventHandler', `${type}:${propertyName}`, value);
       emit(`${type}:${propertyName}`, value);
+    }
+    // dtHeaderEvent
+    const headerEventHandler = (event) => {
+      if (event.currentTarget.dataset.key) {
+        emit(`click:header`, event.currentTarget.dataset.key);
+      }
     }
 
     return {
@@ -192,9 +192,9 @@ export default {
       paginationNo: computed(() => (pageNo.value - 1) * pageSize.value),
       convertComputedProperties,
       customComponent,
-      // localHeader: localHeader,
       onClickTd,
-      customComponentEventHandler
+      customComponentEventHandler,
+      headerEventHandler
     }
   }
 }
@@ -202,6 +202,9 @@ export default {
 <style scoped lang="scss">
 @import "@/sass/_mixin.scss";
   div {
+    &.y-data-table-div {
+      overflow-y: auto;
+    }
     &[data-role="thead"] {
       @include flexRow;
       border-bottom: 1px solid #333;
@@ -218,6 +221,8 @@ export default {
       &:not(last-child) {
         border-right: 1px solid black;
       }
+      // padding-left: 4px;
+      // padding-right: 4px;
       // border-bottom: 1px solid #333;
       // border-top: 1px solid #333;
     }
@@ -225,9 +230,10 @@ export default {
       @include flexRow;
       flex: 1 0 0%;
       min-height: 0;
-      border-bottom: 0.5px solid #AAA;
-      padding-bottom: 10px;
-      padding-top: 10px;
+      border-bottom: 0.75px solid #666;
+      // padding-bottom: 10px;
+      // padding-top: 10px;
+      margin-bottom: 0.5px;
 
       & div[data-role="no"] {
         width: 60px;

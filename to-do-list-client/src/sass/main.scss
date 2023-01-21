@@ -8,3 +8,11 @@ a {
   text-decoration: none;
   color: black;
 }
+input[type=checkbox] {
+  // transform: scale(3);
+  zoom: 2;
+}
+
+.d-none {
+  display:none !important;
+}

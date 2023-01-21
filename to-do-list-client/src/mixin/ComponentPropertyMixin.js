@@ -40,7 +40,9 @@ export default {
     size() {
       return {
         minWidth: typeof(this.width) == 'number' ? `${this.width}px` : this.width,
-        minHeight: typeof(this.height) == 'number' ? `${this.height}px` : this.height
+        maxWidth: typeof(this.width) == 'number' ? `${this.width}px` : this.width,
+        minHeight: typeof(this.height) == 'number' ? `${this.height}px` : this.height,
+        maxHeight: typeof(this.height) == 'number' ? `${this.height}px` : this.height,
       }
     },
     computedBackgroundColor() {

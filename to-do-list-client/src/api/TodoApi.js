@@ -36,7 +36,10 @@ export async function deleteTodo(data) {
   return request({
     url: "/todo/{no}",
     method: "delete",
-    data,
+    data: {
+      no: data.no,
+      pathVariable: true,
+    },
   });
 }
 

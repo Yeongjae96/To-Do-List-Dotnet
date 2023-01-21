@@ -5,6 +5,9 @@ export const TODO = {
     list: "TODO_List",
   },
 
+  views: {
+    LIST: ""   
+  },
   completedColor: {
     // 0: 'black',
     // 1: '#EE5058',

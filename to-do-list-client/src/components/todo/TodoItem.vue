@@ -12,7 +12,7 @@
       />
 
     </div>
-    <div class="todo__completed" @click="onClick('completed')">
+    <div class="todo__completed" @click="onClickComplete">
       <y-icon name="circle" :color="completedColor" />
     </div>
     <div class="todo__tag" @click="onClick('tag')">
@@ -20,6 +20,9 @@
     </div>
     <div class="todo__reg_date" :title="regDate">
       {{ regDate }}
+    </div>
+    <div class="todo__completed_date" :title="completedDate">
+      {{ completedDate }}
     </div>
     <div class="todo__buttons">
       <y-button
@@ -36,7 +39,7 @@
         backgroundColor="#EE5058"
         text="삭제"
         color="white"
-        @click="deleteTodo(no)"
+        @click="onClickDelete(no)"
       />
     </div>
   </li>
@@ -46,7 +49,7 @@
 import { ref, toRefs, onMounted, watch, computed } from 'vue'
 import { resizeItem } from '@/composable/common/YDataTable'
 import { TODO } from '../../utils/Const';
-import { emit } from '@/composable/common/YDataTable'
+import { dtEmit } from '@/composable/common/YDataTable'
 export default {
   name: "todo-item",
   inheritAttrs: false,
@@ -57,6 +60,7 @@ export default {
       key: "title",
       text: "제목",
       width: "*",
+      sortable: true,
     },
     {
       // type: "icon",
@@ -69,7 +73,8 @@ export default {
       // compute: {
       //   color: (data) => TODO.completedColor[data.completed],
       // },
-      align: 'center'
+      align: 'center',
+      sortable: true,
     },
     {
       // type: "custom",
@@ -83,7 +88,17 @@ export default {
       key: "regDate",
       text: "작성일",
       width: "250px",
-      align: 'center'
+      align: 'center',
+      sortable: true,
+      // editable: false,
+    },
+    {
+      // type: "date",
+      key: "completedDate",
+      text: "완료일",
+      width: "250px",
+      align: 'center',
+      sortable: true,
       // editable: false,
     },
     {
@@ -114,6 +129,10 @@ export default {
       type: String,
       default: () => "",
     },
+    completedDate: {
+      type: String,
+      default: () => '',
+    },
     completed: {
       type: Boolean,
       default: () => false,
@@ -129,7 +148,7 @@ export default {
     }
     /* YDataTable용 Props */
   },
-  setup(props) {
+  setup(props, context) {
     // 변수    
     const { title, completed, dtHeader, no } = toRefs(props);
     const isEdit = ref(false);
@@ -142,6 +161,19 @@ export default {
     watch(title, () => {
       displayTitle.value = title.value;
     })
+
+    // 완료버튼
+    const onClickComplete = (event) => {
+      dtEmit({
+        type: 'click',
+        propertyName: 'completed',
+        value: {
+          no: no.value,
+          completed: !completed.value,
+        },
+        context
+      })
+    }
 
     // 로직
     const changeSubject = (value, t) => {
@@ -171,14 +203,14 @@ export default {
     }
 
     const onClick = (tagName) => {
-      console.log('test', tagName);
-      emit({
+      dtEmit({
         type: 'click',
         propertyName: tagName,
         value: {
           no: no.value,
           title: title.value,
-        }
+        },
+        context
       })
       // emit('click', { tagName, no: no.value })
     }
@@ -197,7 +229,9 @@ export default {
       onEnterSubject,
       onFocusoutSubject,
       onClickUpdate,
-      onClick
+      onClick,
+      onClickComplete,
+      onClickDelete: () => { onClick('delete') }
     }
   },
 };
@@ -223,29 +257,29 @@ export default {
     // border-bottom: 1px solid black;
   }
 
-  & .todo__subject {
-    width: 40%;
-  }
+  // & .todo__subject {
+  //   width: 40%;
+  // }
 
-  & .todo__completed {
-    width: 10%;
-    cursor: pointer;
-  }
+  // & .todo__completed {
+  //   width: 10%;
+  //   cursor: pointer;
+  // }
 
-  & .todo__tag {
-    width: 10%;
-  }
-  & .todo__reg_date {
-    width: 15%;
-  }
+  // & .todo__tag {
+  //   width: 10%;
+  // }
+  // & .todo__reg_date {
+  //   width: 15%;
+  // }
 
-  & .todo__buttons {
-    width: 10%;
+  // & .todo__buttons {
+  //   width: 10%;
 
-    @include notLastChild {
-      margin-right: 5px;
-    }
-  }
+  //   @include notLastChild {
+  //     margin-right: 5px;
+  //   }
+  // }
 
   .completed {
     text-decoration: line-through;

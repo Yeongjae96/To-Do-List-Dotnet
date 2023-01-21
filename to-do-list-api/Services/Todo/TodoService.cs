@@ -12,7 +12,7 @@ public class TodoService
 {
   public readonly TodoContext _context;
 
-  public TodoService(TodoContext context) 
+  public TodoService(TodoContext context)
   {
     _context = context;
   }
@@ -23,14 +23,15 @@ public class TodoService
     var result = await _context.TodoSet.GetSearchList(searchParam);
 
     // 후처리 - 시차 맞추기 (Utc to Korea)
-    result.List.ForEach(item => {
+    result.List.ForEach(item =>
+    {
       var originRegDate = item.RegDate.Value;
       item.RegDate = originRegDate.ToTimeZone(TimeZoneId.Korea);
     });
     return result;
   }
-  
-  public async Task<TodoItem> GetTodo(int? no) 
+
+  public async Task<TodoItem> GetTodo(int? no)
   {
     var result = await _context.TodoSet.FirstOrDefaultAsync(x => x.No == no);
     ExceptionUtil.ThrowIfNull<KeyNotFoundException>(result);
@@ -42,7 +43,7 @@ public class TodoService
   {
     _context.TodoSet.Add(todoItem);
     await _context.SaveChangesAsync();
-    
+
     return todoItem;
   }
 
@@ -74,6 +75,7 @@ public class TodoService
     ExceptionUtil.ThrowIfNull<KeyNotFoundException>(updateTodo);
 
     updateTodo.Completed = item.Completed;
+    updateTodo.CompletedDate = item.Completed ? DateTime.Now : null;
     await _context.SaveChangesAsync();
     return updateTodo;
   }

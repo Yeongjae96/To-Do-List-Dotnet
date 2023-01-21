@@ -33,6 +33,8 @@ export default {
         { title: 'About', url: '/About', icon: 'user-secret', imageSize: 'sm'},
         { title: 'TodoList', url: '/todo/TodoList', icon: 'user-secret', imageSize: 'sm'},
         { title: 'BoardList', url: '/board', icon: 'user-secret', imageSize: 'sm'},
+        { title: '세븐원더스듀얼', url: '/sevenWonders', icon: 'user-secret', imageSize: 'sm'},
+        { title: '로스트시티', url: '/lostCity', icon: 'user-secret', imageSize: 'sm'},
       ];
     },
     async init() {

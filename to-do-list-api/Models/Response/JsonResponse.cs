@@ -1,4 +1,4 @@
-namespace TodoList.Common;
+namespace TodoList.Models.Response;
 
 public class JsonResponse<T>
 {

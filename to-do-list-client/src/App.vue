@@ -49,7 +49,9 @@ export default {
 @import "@/sass/main.scss";
 
 body {
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-y: auto;
+
 }
 
 #app {

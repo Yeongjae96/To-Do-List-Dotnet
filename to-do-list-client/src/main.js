@@ -14,6 +14,7 @@ import moment from "moment";
 
 // Component
 import YIcon from "@/components/common/YIcon";
+import YImage from "@/components/common/YImage";
 import YButton from "@/components/common/YButton";
 import YCard from "@/components/common/YCard";
 import YEmptyList from "@/components/common/YEmptyList";
@@ -42,6 +43,7 @@ app.use(store);
 
 // Global Component
 app.component("y-icon", YIcon);
+app.component("y-image", YImage);
 app.component("y-button", YButton);
 app.component("y-card", YCard);
 app.component("y-empty-list", YEmptyList);
